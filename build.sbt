@@ -14,6 +14,14 @@ lazy val root = project
   .aggregate(
     core,
     delivery,
+    main
+  )
+
+lazy val main = project
+  .in(file("main"))
+  .dependsOn(
+    core,
+    delivery
   )
 
 lazy val delivery = project

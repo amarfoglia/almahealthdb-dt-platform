@@ -29,7 +29,7 @@ object DeliveryMain extends ZIOAppDefault:
   )
 
   override def run: ZIO[ZIOAppArgs & Scope, Any, Any] = 
-    program            
+    program
       .provide(
         devConfig,
         Server.live,
