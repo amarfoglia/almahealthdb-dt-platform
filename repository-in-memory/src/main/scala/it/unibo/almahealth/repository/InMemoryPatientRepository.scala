@@ -5,6 +5,7 @@ import it.unibo.almahealth.domain.Identifier
 import org.hl7.fhir.r4.model.Patient
 
 import zio.ZIO
+import zio.ZLayer
 
 class InMemoryPatientRepository(
   private val patients: Map[Identifier, Patient]
@@ -15,3 +16,6 @@ class InMemoryPatientRepository(
     }.refineToOrDie[NoSuchElementException]
   
 
+object InMemoryPatientRepository:
+  def live(patients: Map[Identifier, Patient]): ZLayer[Any, Nothing, PatientRepository] =
+    ZLayer.succeed(InMemoryPatientRepository(patients))

@@ -10,8 +10,8 @@ trait PatientRepository:
 
 
 object PatientRepository:
-  def inMemory(patients: Map[Identifier, Patient]): ZLayer[Any, Nothing, PatientRepository] = 
-    ZLayer.succeed(InMemoryPatientRepository(patients))
+  // def inMemory(patients: Map[Identifier, Patient]): ZLayer[Any, Nothing, PatientRepository] =
+  //   ZLayer.succeed(InMemoryPatientRepository(patients))
 
   def findById(identifier: Identifier): ZIO[PatientRepository, NoSuchElementException, Patient] = 
     ZIO.serviceWithZIO[PatientRepository](_.findById(identifier))

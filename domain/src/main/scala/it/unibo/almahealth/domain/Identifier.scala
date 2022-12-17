@@ -8,6 +8,6 @@ object Identifier:
 object syntax:
   object pattern:
     object Identifier:
-      def unapply(in: String): Option[Identifier] = if in != "" 
-        then Some(it.unibo.almahealth.domain.Identifier(in)) 
+      def unapply(in: String): Option[Identifier] = if in != ""
+        then Some(it.unibo.almahealth.domain.Identifier(in))
         else None

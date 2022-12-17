@@ -7,19 +7,21 @@ import zio.ZIOAppDefault
 import zio.http.*
 import zio.http.model.Method
 
-import it.unibo.almahealth.delivery.patientHttp
 import it.unibo.almahealth.context.ZFhirContext
-import it.unibo.almahealth.usecases.PatientUseCases
+import it.unibo.almahealth.context.ZParser
 import it.unibo.almahealth.repository.InMemoryPatientRepository
 import it.unibo.almahealth.domain.Identifier
 import org.hl7.fhir.r4.model.Patient
 import zio.ZLayer
 import it.unibo.almahealth.repository.PatientRepository
+import it.unibo.almahealth.delivery.PatientApp
+import it.unibo.almahealth.usecases.PatientService
+import it.unibo.almahealth.presenter.PatientPresenter
 
-object DeliveryMain extends ZIOAppDefault:
+object Main extends ZIOAppDefault:
   val devConfig = ServerConfig.live(ServerConfig.default.port(8080))
 
-  val app = patientHttp
+  val app = PatientApp.http
 
   val program = Server.install(app) *> zio.Console.printLine("Server started on port 8080") *> ZIO.never
 
@@ -33,7 +35,10 @@ object DeliveryMain extends ZIOAppDefault:
       .provide(
         devConfig,
         Server.live,
+        PatientApp.live,
+        PatientService.live,
+        PatientPresenter.json,
         ZFhirContext.live.forR4,
-        PatientRepository.inMemory(patients)
+        InMemoryPatientRepository.live(patients)
       )
 
