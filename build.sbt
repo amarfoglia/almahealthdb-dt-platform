@@ -32,10 +32,19 @@ lazy val core = project
   .settings(
     libraryDependencies ++= Seq(
       dev.zio.zio,
-      dev.zio.`zio-http`,
+      dev.zio.`zio-kafka`,
       dev.zio.`zio-streams`,
-      // `ca.uhn.hapi.fhir`.`hapi-fhir-base`,
-      // `ca.uhn.hapi.fhir`.`hapi-fhir-structures-r4`,
+    )
+  )
+
+lazy val `event-port-kafka`= project
+  .in(file("event-port-kafka"))
+  .dependsOn(core)
+  .settings(
+    libraryDependencies ++= Seq(
+      dev.zio.zio,
+      dev.zio.`zio-kafka`,
+      dev.zio.`zio-streams`,
     )
   )
 
@@ -62,4 +71,5 @@ lazy val main = project
     core,
     delivery,
     `repository-in-memory`,
+    `event-port-kafka`,
   )

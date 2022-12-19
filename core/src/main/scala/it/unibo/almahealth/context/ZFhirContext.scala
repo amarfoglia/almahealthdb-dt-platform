@@ -10,6 +10,7 @@ import zio.ZLayer
 import org.hl7.fhir.r4.model.Resource
 import java.io.IOException
 import ca.uhn.fhir.parser.DataFormatException
+import org.hl7.fhir.r4.model.BaseResource
 
 /**
  * Wrapper for the [[ca.uhn.fhir.context.FhirContext]] class that is side-effect free.
@@ -30,8 +31,14 @@ object ZFhirContext:
 /**
  * Wrapper for the [[ca.uhn.fhir.parser.IParser]] class that is side-effect free.
  */
-class ZParser(parser: IParser):
+class ZEncoder(parser: IParser):
   def encodeResourceToString(resource: Resource): IO[DataFormatException, String] =
     ZIO.attempt {
       parser.encodeResourceToString(resource)
+    }.refineToOrDie[DataFormatException]
+
+class ZParser(parser: IParser):
+  def parseString[A <: BaseResource](cls: Class[A], in: String): IO[DataFormatException, A] =
+    ZIO.attempt {
+      parser.parseResource(cls, in)
     }.refineToOrDie[DataFormatException]

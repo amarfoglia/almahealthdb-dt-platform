@@ -8,6 +8,7 @@ object Dependencies {
             val zio = "dev.zio" %% "zio" % zioVersion
             val `zio-http` = "dev.zio" %% "zio-http" % "0.0.3"
             val `zio-json` = "dev.zio" %% "zio-json" % "0.3.0"
+            val `zio-kafka` = "dev.zio" %% "zio-kafka" % "2.0.1"
             val `zio-streams` = "dev.zio" %% "zio" % zioVersion
             val `zio-test` = "dev.zio" %% "zio-test" % zioVersion
             val `zio-test-junit` = "dev.zio" %% "zio-test-junit" % zioVersion
