@@ -19,6 +19,9 @@ class ZFhirContext(ctx: FhirContext):
   def newJsonParser: UIO[ZParser] =
     ZIO.succeed(ctx.newJsonParser()).map(ZParser(_))
 
+  def newJsonEncoder: UIO[ZEncoder] =
+    ZIO.succeed(ctx.newJsonParser()).map(ZEncoder(_))
+
 object ZFhirContext:
   object live:
     def forR4: ZLayer[Any, Nothing, ZFhirContext] =
@@ -26,6 +29,9 @@ object ZFhirContext:
 
   def newJsonParser: URIO[ZFhirContext, ZParser] =
     ZIO.serviceWithZIO[ZFhirContext](_.newJsonParser)
+
+  def newJsonEncoder: URIO[ZFhirContext, ZEncoder] =
+    ZIO.serviceWithZIO[ZFhirContext](_.newJsonEncoder)
 
 
 /**

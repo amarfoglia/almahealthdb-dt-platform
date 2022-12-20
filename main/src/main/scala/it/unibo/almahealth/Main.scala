@@ -12,7 +12,6 @@ import zio.stream.ZStream
 
 import it.unibo.almahealth.context.ZFhirContext
 import it.unibo.almahealth.context.ZEncoder
-import it.unibo.almahealth.repository.InMemoryPatientRepository
 import it.unibo.almahealth.domain.Identifier
 import org.hl7.fhir.r4.model.Patient
 import it.unibo.almahealth.repository.PatientRepository

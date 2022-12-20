@@ -11,7 +11,7 @@ type PatientPresenter = Presenter[Patient, String]
 
 class JsonPatientPresenter(context: ZFhirContext) extends PatientPresenter:
   override def present(b: Patient): ZIO[Any, PresenterException, String] =
-    context.newJsonParser.flatMap {
+    context.newJsonEncoder.flatMap {
       _.encodeResourceToString(b)
         .mapError(_.getMessage)
         .mapError(PresenterException(_))
