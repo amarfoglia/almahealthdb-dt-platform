@@ -1,7 +1,6 @@
 package it.unibo.almahealth.delivery
 
 import it.unibo.almahealth.domain.syntax.pattern.*
-import it.unibo.almahealth.context.ZFhirContext
 import zio.http.*
 import zio.http.model.Method
 import zio.ZIO
@@ -13,7 +12,6 @@ import zio.ZLayer
 
 class PatientApp(
   patientService: PatientService,
-  fhirContext: ZFhirContext,
   patientPresenter: PatientPresenter
 ):
   def http: HttpApp[Any, NoSuchElementException] =
@@ -26,8 +24,8 @@ class PatientApp(
     }
 
 object PatientApp:
-  val live: ZLayer[PatientService & ZFhirContext & PatientPresenter, Nothing, PatientApp] =
-    ZLayer.fromFunction(PatientApp(_, _, _))
+  val live: ZLayer[PatientService & PatientPresenter, Nothing, PatientApp] =
+    ZLayer.fromFunction(PatientApp(_, _))
 
   def http: HttpApp[PatientApp, NoSuchElementException] =
     Http.fromZIO(ZIO.service[PatientApp].map(_.http)).flatten
