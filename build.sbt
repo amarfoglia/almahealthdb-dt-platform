@@ -52,7 +52,7 @@ lazy val `pss-patient` = project.in(file("pss-patient"))
   .aggregate(
     `pss-patient-domain`,
     `pss-patient-core`,
-    `pss-patient-delivery`,
+    `pss-patient-delivery-http`,
     `pss-patient-repository-in-memory`,
   )
 
@@ -75,7 +75,7 @@ lazy val `pss-patient-core` = project.in(file("pss-patient/core"))
 lazy val `pss-patient-repository-in-memory` = project.in(file("pss-patient/repository-in-memory"))
   .dependsOn(`pss-patient-core`)
 
-lazy val `pss-patient-delivery` = project.in(file("pss-patient/delivery"))
+lazy val `pss-patient-delivery-http` = project.in(file("pss-patient/delivery-http"))
   .dependsOn(
     `pss-patient-core`,
     `common-fhir`,
@@ -93,7 +93,7 @@ lazy val `fall-detection` = project.in(file("fall-detection"))
     `fall-detection-domain`,
     `fall-detection-core`,
     `fall-detection-repository-in-memory`,
-    `fall-detection-delivery`,
+    `fall-detection-delivery-http`,
   )
 
 lazy val `fall-detection-domain` = project.in(file("fall-detection/domain"))
@@ -118,7 +118,7 @@ lazy val `fall-detection-core` = project.in(file("fall-detection/core"))
 lazy val `fall-detection-repository-in-memory` = project.in(file("fall-detection/repository-in-memory"))
   .dependsOn(`fall-detection-core`)
 
-lazy val `fall-detection-delivery` = project.in(file("fall-detection/delivery"))
+lazy val `fall-detection-delivery-http` = project.in(file("fall-detection/delivery-http"))
   .dependsOn(`fall-detection-core`)
 
 lazy val main = project.in(file("main"))
