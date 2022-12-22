@@ -25,7 +25,7 @@ object Main extends ZIOAppDefault:
   val program = for
     _ <- ZIO.debug("Start program")
     _ <- ZIO.scoped {
-      FallDetectionService.fallStream
+      FallDetectionService.fallStreamByIdentifier
         .take(2)
         .flatMap(o => ZStream.fromZIO(ZIO.debug(o.getResourceType)))
         .runDrain
