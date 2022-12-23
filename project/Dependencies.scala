@@ -1,6 +1,9 @@
 import sbt.*
 
 object Dependencies {
+  object `com.complexible.stardog` {
+    val `client-http`= "com.complexible.stardog" % "client-http" % "8.1.1" pomOnly() from "https://maven.stardog.com"
+  }
   object dev {
     object zio {
       private val zioVersion = "2.0.2"
