@@ -87,6 +87,14 @@ lazy val `pss-patient-core` = project.in(file("pss-patient/core"))
 lazy val `pss-patient-repository-in-memory` = project.in(file("pss-patient/repository-in-memory"))
   .dependsOn(`pss-patient-core`)
 
+lazy val `pss-patient-repository-stardog` = project.in(file("pss-patient/repository-stardog"))
+  .dependsOn(`pss-patient-core`)
+  .settings(
+    libraryDependencies ++= Seq(
+      `com.complexible.stardog`.`client-http`
+    )
+  )
+
 lazy val `pss-patient-delivery-http` = project.in(file("pss-patient/delivery-http"))
   .dependsOn(
     `pss-patient-core`,
