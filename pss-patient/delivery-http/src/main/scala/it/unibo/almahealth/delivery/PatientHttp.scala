@@ -1,30 +1,46 @@
 package it.unibo.almahealth.delivery
 
-import it.unibo.almahealth.domain.syntax.pattern.*
+import ca.uhn.fhir.context.FhirContext
+import it.unibo.almahealth.domain.Identifier
+import it.unibo.almahealth.presenter.PatientPresenter
+import it.unibo.almahealth.presenter.Presenter
+import it.unibo.almahealth.repository.PatientRepository
+import it.unibo.almahealth.service.PatientService
+import org.hl7.fhir.r4.model.AllergyIntolerance
+import org.hl7.fhir.r4.model.Bundle
+import org.hl7.fhir.r4.model.MedicationStatement
+import zio.ZIO
+import zio.ZLayer
 import zio.http.*
 import zio.http.model.Method
-import zio.ZIO
-import ca.uhn.fhir.context.FhirContext
-import it.unibo.almahealth.repository.PatientRepository
-import it.unibo.almahealth.usecases.PatientService
-import it.unibo.almahealth.presenter.PatientPresenter
-import zio.ZLayer
+
+type BundlePresenter = Presenter[Bundle, String]
 
 class PatientApp(
-  patientService: PatientService,
-  patientPresenter: PatientPresenter
+    patientService: PatientService,
+    bundlePresenter: BundlePresenter
 ):
   def http: HttpApp[Any, NoSuchElementException] =
     Http.collectZIO[Request] {
-      case Method.GET -> !! / Identifier(identifier) =>
+      case Method.GET -> !! / identifier / "allergyIntolerances" =>
         for
-          patient <- patientService.findById(identifier)
-          encoded <- patientPresenter.present(patient).orDie
+          allergies <- patientService
+            .patient(Identifier(identifier))
+            .flatMap(_.allergyIntolerances)
+          encoded <- bundlePresenter.present(allergies).orDie
         yield Response.text(encoded)
+      case Method.GET -> !! / identifier / "medications" =>
+        for
+          medicationStatements <- patientService
+            .patient(Identifier(identifier))
+            .flatMap(_.medications)
+          encoded <- bundlePresenter.present(medicationStatements).orDie
+        yield Response.text(encoded)
+
     }
 
 object PatientApp:
-  val live: ZLayer[PatientService & PatientPresenter, Nothing, PatientApp] =
+  val live: ZLayer[PatientService & BundlePresenter, Nothing, PatientApp] =
     ZLayer.fromFunction(PatientApp(_, _))
 
   def http: HttpApp[PatientApp, NoSuchElementException] =

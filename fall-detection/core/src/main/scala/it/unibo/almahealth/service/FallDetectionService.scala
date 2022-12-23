@@ -1,4 +1,4 @@
-package it.unibo.almahealth.usecases
+package it.unibo.almahealth.service
 
 import zio.stream.ZStream
 import zio.ZIO
@@ -10,7 +10,7 @@ import org.hl7.fhir.r4.model.Observation
 import zio.ZLayer
 import it.unibo.almahealth.domain.Identifier
 import it.unibo.almahealth.context.Topics.Event
-import it.unibo.almahealth.context.Topics.syntax._
+import it.unibo.almahealth.context.Topics.syntax.*
 import org.hl7.fhir.r4.model.RiskAssessment
 import org.hl7.fhir.r4.model.Patient
 

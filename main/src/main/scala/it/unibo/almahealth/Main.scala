@@ -8,7 +8,8 @@ import zio.ZIOAppDefault
 import zio.ZLayer
 import zio.stream.ZStream
 
-import it.unibo.almahealth.usecases.FallDetectionService
+import it.unibo.almahealth.domain.Identifier
+import it.unibo.almahealth.service.FallDetectionService
 import it.unibo.almahealth.events.KafkaInputPort
 import zio.kafka.consumer.ConsumerSettings
 import it.unibo.almahealth.context.ZFhirContext
@@ -25,10 +26,11 @@ object Main extends ZIOAppDefault:
   val program = for
     _ <- ZIO.debug("Start program")
     _ <- ZIO.scoped {
-      FallDetectionService.fallStreamByIdentifier
-        .take(2)
-        .flatMap(o => ZStream.fromZIO(ZIO.debug(o.getResourceType)))
-        .runDrain
+      // FallDetectionService.fallStreamByIdentifier(Identifier("mario"))
+      //   .take(2)
+      //   .flatMap(o => ZStream.fromZIO(ZIO.debug(o.getResourceType)))
+      //   .runDrain
+      ZIO.succeed(4)
     }
   yield ()
 
