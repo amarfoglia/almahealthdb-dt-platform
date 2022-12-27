@@ -30,7 +30,10 @@ class StardogPatientRepository(
   lazy val writer = ZTurtleWriter()
 
   private val findByIdQuery = """
-  | CONSTRUCT { ?s ?p ?o }
+  | CONSTRUCT {
+  |   ?patient fhir:nodeRole fhir:treeRoot .
+  |   ?s ?p ?o .
+  | }
   | WHERE {
   |     ?patient a fhir:Patient ;
   |                 fhir:Patient.identifier  [
@@ -43,40 +46,6 @@ class StardogPatientRepository(
   |     ?s ?p ?o .
   | }""".stripMargin
 
-//   def test: ZIO[Any, Nothing, Unit] =
-//     zConnectionPool.withConnection { conn =>
-//       conn.connection.namespaces().add("fhir", "http://hl7.org/fhir/")
-//       val query = """
-//       |DESCRIBE ?p
-//       |WHERE { ?p a fhir:Patient }
-// """.stripMargin
-//       val res = conn.connection
-//         .graph(
-//           findByIdQuery,
-//           Namespaces.STARDOG
-//         )
-//         // .parameter("identifier", "GTWGWY82B42G920M")
-//         .execute()
-//       val zwriter = ZTurtleWriter()
-//       zwriter
-//         .write(res.stream().toScala(LazyList))
-//         .flatMap(ZIO.debug(_))
-//       // val writer = TurtleWriter.TurtleWriterFactory().create(System.out, Options.empty())
-//       // writer.start()
-//       // while (res.hasNext()) {
-//       //   val s = res.next
-//       //   writer.handle(s)
-//       // }
-//       // writer.end()
-
-//       // ZIO.unit
-//       // ZStream
-//       //   .fromJavaStream(res.stream())
-//       //   .map { s => s"${s.subject} ${s.predicate} ${s.`object`()}." }
-//       //   .foreach(ZIO.debug(_))
-//       // .runCollect
-//     }.orDie
-
   override def findById(
       identifier: Identifier
   ): ZIO[Any, NoSuchPatientException, Patient] =
@@ -88,11 +57,6 @@ class StardogPatientRepository(
             .graph(findByIdQuery, parameters = List(Parameter("identifier", identifier.value)))
             .mapZIO(writer.write(_))
             .run(ZSink.mkString)
-            .map(
-              _ + "\n"
-                + "<urn:uuid:6d5799c8-2be2-39fc-a719-80a66c1b311c> <http://hl7.org/fhir/nodeRole> <http://hl7.org/fhir/treeRoot> ."
-            )
-            .debug
             .orDie
           _ <-
             if serialized == "" then
