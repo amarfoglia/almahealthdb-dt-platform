@@ -72,5 +72,5 @@ object ZConnection:
 
   case class Parameter(variable: String, value: String)
 
-  def apply(connection: Connection, namespaces: List[Namespace] = List()) =
-    new ZConnection(connection, namespaces)
+  def apply(connection: Connection) =
+    new ZConnection(connection, List())

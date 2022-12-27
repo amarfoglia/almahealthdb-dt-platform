@@ -34,8 +34,8 @@ object StardogPatientRepositorySpec extends ZIOSpecDefault:
         repository <- makeRepository
         patient    <- repository.findById(Identifier("GTWGWY82B42G920M"))
         encoder    <- zFhirContext.newJsonEncoder
-        serialized <- encoder.encodeToString(patient)
-        _          <- ZIO.debug()
+        serialized <- encoder.encodeResourceToString(patient)
+        _          <- ZIO.debug(serialized)
       yield assertTrue(true)
 
     }
