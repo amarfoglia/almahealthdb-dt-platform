@@ -12,15 +12,17 @@ import java.io.IOException
 import ca.uhn.fhir.parser.DataFormatException
 import org.hl7.fhir.r4.model.BaseResource
 
-/**
- * Wrapper for the [[ca.uhn.fhir.context.FhirContext]] class that is side-effect free.
- */
+/** Wrapper for the [[ca.uhn.fhir.context.FhirContext]] class that is side-effect free.
+  */
 class ZFhirContext(ctx: FhirContext):
   def newJsonParser: UIO[ZParser] =
     ZIO.succeed(ctx.newJsonParser()).map(ZParser(_))
 
   def newJsonEncoder: UIO[ZEncoder] =
     ZIO.succeed(ctx.newJsonParser()).map(ZEncoder(_))
+
+  def newRDFParser: UIO[ZParser] =
+    ZIO.succeed(ctx.newRDFParser()).map(ZParser(_))
 
 object ZFhirContext:
   object live:
@@ -33,18 +35,20 @@ object ZFhirContext:
   def newJsonEncoder: URIO[ZFhirContext, ZEncoder] =
     ZIO.serviceWithZIO[ZFhirContext](_.newJsonEncoder)
 
-
-/**
- * Wrapper for the [[ca.uhn.fhir.parser.IParser]] class that is side-effect free.
- */
+/** Wrapper for the [[ca.uhn.fhir.parser.IParser]] class that is side-effect free.
+  */
 class ZEncoder(parser: IParser):
   def encodeResourceToString(resource: Resource): IO[DataFormatException, String] =
-    ZIO.attempt {
-      parser.encodeResourceToString(resource)
-    }.refineToOrDie[DataFormatException]
+    ZIO
+      .attempt {
+        parser.encodeResourceToString(resource)
+      }
+      .refineToOrDie[DataFormatException]
 
 class ZParser(parser: IParser):
   def parseString[A <: BaseResource](cls: Class[A], in: String): IO[DataFormatException, A] =
-    ZIO.attempt {
-      parser.parseResource(cls, in)
-    }.refineToOrDie[DataFormatException]
+    ZIO
+      .attempt {
+        parser.parseResource(cls, in)
+      }
+      .refineToOrDie[DataFormatException]

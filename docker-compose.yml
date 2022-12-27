@@ -21,3 +21,16 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  stardog:
+    image: stardog/stardog
+    ports:
+      - 5820:5820
+    volumes:
+      - ~/stardog-home:/var/opt/stardog
+
+  stardog-studio:
+    image: stardog/stardog-studio:current
+    ports:
+      - 8888:8080
+    restart: always
