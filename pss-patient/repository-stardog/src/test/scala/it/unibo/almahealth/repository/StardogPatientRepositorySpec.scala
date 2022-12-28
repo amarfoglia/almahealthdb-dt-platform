@@ -10,33 +10,84 @@ import zio.test.*
 import it.unibo.almahealth.context.ZFhirContext.apply
 import ca.uhn.fhir.context.FhirContext
 import it.unibo.almahealth.context.ZFhirContext
+import it.unibo.almahealth.stardog.ZTurtleWriter
 
 object StardogPatientRepositorySpec extends ZIOSpecDefault:
+  def connectionConfig = ConnectionConfiguration
+    .to("testDB")
+    .server("http://localhost:5820")
+    .credentials("admin", "admin")
+  def makeConnectionPool = ZIO
+    .attempt {
+      ConnectionPoolConfig
+        .using(connectionConfig)
+        .create()
+    }
+  def zFhirContext = ZFhirContext(FhirContext.forR4())
+
+  def makeRepository = makeConnectionPool
+    .map(ZConnectionPool(_))
+    .map(StardogPatientRepository(_, zFhirContext, ZTurtleWriter()))
   def spec = suite("StardogPatientRepositorySpec")(
     test("findById should return a patient") {
-      def connectionConfig = ConnectionConfiguration
-        .to("testDB")
-        .server("http://localhost:5820")
-        .credentials("admin", "admin")
-      def makeConnectionPool = ZIO
-        .attempt {
-          ConnectionPoolConfig
-            .using(connectionConfig)
-            .create()
-        }
-      def zFhirContext = ZFhirContext(FhirContext.forR4())
-
-      def makeRepository = makeConnectionPool
-        .map(ZConnectionPool(_))
-        .map(StardogPatientRepository(_, zFhirContext))
-
       for
         repository <- makeRepository
         patient    <- repository.findById(Identifier("GTWGWY82B42G920M"))
-        encoder    <- zFhirContext.newJsonEncoder
-        serialized <- encoder.encodeResourceToString(patient)
-        _          <- ZIO.debug(serialized)
-      yield assertTrue(true)
+      yield assertTrue(patient != null)
 
+    },
+    test("getAllergyIntolerances should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getAllergyIntolerances(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getFunctionalStatus should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getFunctionalStatus(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getImmunizations should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getImmunizations(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getMedicalEquipment should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getMedicalEquipment(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getMedications should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getMedications(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getProblems should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getProblems(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getProcedures should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getProcedures(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getSocialHistory should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getSocialHistory(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
+    },
+    test("getVitalSigns should return a Bundle") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.getVitalSigns(Identifier("GTWGWY82B42G920M"))
+      yield assertTrue(bundle != null)
     }
   )
