@@ -95,6 +95,18 @@ class StardogPatientRepository(
   ): ZIO[Any, NoSuchPatientException, Bundle] =
     getResource(identifier, "Device", "46264-8")
 
+  override def uploadDocument(document: Bundle): ZIO[Any, Nothing, Unit] =
+    zConnectionPool.withConnection { conn =>
+      for
+        encoder    <- zFhirContext.newRDFEncoder
+        serialized <- encoder.encodeResourceToString(document).orDie.debug
+        _ <- conn
+          .update(s"""
+INSERT DATA { ${serialized} }
+""").orDie
+      yield ()
+    }
+
   private def getResource(
       identifier: Identifier,
       fhirResourceName: String,

@@ -25,6 +25,19 @@ class ZConnection(
   def addNamespace(namespace: Namespace): ZConnection =
     new ZConnection(connection, namespace :: namespaces)
 
+  def update(
+      in: String,
+      reasoning: Boolean = false
+  ): ZIO[Any, StardogException, Unit] = ZIO
+    .attempt {
+      connection
+        .update(in)
+        .reasoning(reasoning)
+        .execute()
+    }
+    .refineToOrDie[StardogException]
+    .unit
+
   def select(
       in: String,
       parameters: List[Parameter] = List()

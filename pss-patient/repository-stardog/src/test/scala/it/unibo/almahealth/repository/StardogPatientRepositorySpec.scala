@@ -11,6 +11,7 @@ import it.unibo.almahealth.context.ZFhirContext.apply
 import ca.uhn.fhir.context.FhirContext
 import it.unibo.almahealth.context.ZFhirContext
 import it.unibo.almahealth.stardog.ZTurtleWriter
+import org.hl7.fhir.r4.model.Bundle
 
 object StardogPatientRepositorySpec extends ZIOSpecDefault:
   def connectionConfig = ConnectionConfiguration
@@ -89,5 +90,11 @@ object StardogPatientRepositorySpec extends ZIOSpecDefault:
         repository <- makeRepository
         bundle     <- repository.getVitalSigns(Identifier("GTWGWY82B42G920M"))
       yield assertTrue(bundle != null)
+    },
+    test("uploadDocument should return success") {
+      for
+        repository <- makeRepository
+        bundle     <- repository.uploadDocument(new Bundle())
+      yield assertTrue(true)
     }
   )

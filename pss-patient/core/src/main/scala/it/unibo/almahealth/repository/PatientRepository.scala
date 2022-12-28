@@ -31,6 +31,8 @@ trait PatientRepository:
 
   def getVitalSigns(identifier: Identifier): ZIO[Any, NoSuchPatientException, Bundle]
 
+  def uploadDocument(document: Bundle): ZIO[Any, Nothing, Unit]
+
 object PatientRepository:
 
   def findById(identifier: Identifier): ZIO[PatientRepository, NoSuchElementException, Patient] =

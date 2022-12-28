@@ -24,6 +24,9 @@ class ZFhirContext(ctx: FhirContext):
   def newRDFParser: UIO[ZParser] =
     ZIO.succeed(ctx.newRDFParser()).map(ZParser(_))
 
+  def newRDFEncoder: UIO[ZEncoder] =
+    ZIO.succeed(ctx.newRDFParser()).map(ZEncoder(_))
+
 object ZFhirContext:
   object live:
     def forR4: ZLayer[Any, Nothing, ZFhirContext] =
