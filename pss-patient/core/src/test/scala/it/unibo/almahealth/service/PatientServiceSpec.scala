@@ -1,22 +1,23 @@
 package it.unibo.almahealth.service
 
-import zio.test.ZIOSpecDefault
-import zio.mock.Mock
-import zio.mock.Expectation
-import zio.mock.Proxy
-import it.unibo.almahealth.repository.PatientRepository
-import it.unibo.almahealth.repository.NoSuchPatientException
 import it.unibo.almahealth.domain.Identifier
-import org.hl7.fhir.r4.model.Patient
-import zio.ZLayer
-import zio.ZIO
-import zio.URLayer
-import zio.test.assertTrue
-import org.hl7.fhir.r4.model.Bundle
-import zio.test.Assertion
-import util.chaining.*
 import it.unibo.almahealth.repository.MockPatientRepository
+import it.unibo.almahealth.repository.NoSuchPatientException
+import it.unibo.almahealth.repository.PatientRepository
+import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Bundle.BundleType
+import org.hl7.fhir.r4.model.Patient
+import zio.URLayer
+import zio.ZIO
+import zio.ZLayer
+import zio.mock.Expectation
+import zio.mock.Mock
+import zio.mock.Proxy
+import zio.test.Assertion
+import zio.test.ZIOSpecDefault
+import zio.test.assertTrue
+
+import util.chaining.*
 
 object PatientServiceSpec extends ZIOSpecDefault:
   val mario  = new Patient().tap(_.addName().tap(_.addGiven("Mario")))
@@ -148,7 +149,6 @@ object PatientServiceSpec extends ZIOSpecDefault:
       val mockPatientRepo = MockPatientRepository
         .UploadDocument(assertion = Assertion.equalTo(bundle))
         .toLayer
-
       for _ <- program.provide(mockPatientRepo >>> PatientService.live)
       yield assertTrue(true)
     }

@@ -1,13 +1,13 @@
 package it.unibo.almahealth.repository
 
-import zio.mock.Mock
-import zio.mock.Proxy
 import it.unibo.almahealth.domain.Identifier
-import zio.ZLayer
-import zio.URLayer
-import zio.ZIO
 import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.Patient
+import zio.URLayer
+import zio.ZIO
+import zio.ZLayer
+import zio.mock.Mock
+import zio.mock.Proxy
 
 object MockPatientRepository extends Mock[PatientRepository]:
   object FindById               extends Effect[Identifier, NoSuchPatientException, Patient]

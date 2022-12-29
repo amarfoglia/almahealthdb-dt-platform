@@ -1,6 +1,8 @@
 package it.unibo.almahealth.delivery
 
 import ca.uhn.fhir.context.FhirContext
+import ca.uhn.fhir.parser.DataFormatException
+import it.unibo.almahealth.context.ZFhirContext
 import it.unibo.almahealth.domain.Identifier
 import it.unibo.almahealth.presenter.PatientPresenter
 import it.unibo.almahealth.presenter.Presenter
@@ -14,8 +16,6 @@ import zio.ZIO
 import zio.ZLayer
 import zio.http.*
 import zio.http.model.Method
-import it.unibo.almahealth.context.ZFhirContext
-import ca.uhn.fhir.parser.DataFormatException
 
 type PatientPresenter = Presenter[Patient, String]
 type BundlePresenter  = Presenter[Bundle, String]
