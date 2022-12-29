@@ -9,6 +9,7 @@ ThisBuild / version      := "0.1.0-SNAPSHOT"
 
 lazy val commonConfiguration = Seq(
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
+  Test / testOptions += Tests.Argument("-ignore-tags", "stardog"),
   libraryDependencies ++= Seq(
     dev.zio.zio,
     dev.zio.`zio-streams`,
@@ -83,7 +84,8 @@ lazy val `pss-patient` = project
     `pss-patient-domain`,
     `pss-patient-core`,
     `pss-patient-delivery-http`,
-    `pss-patient-repository-in-memory`
+    `pss-patient-repository-in-memory`,
+    `pss-patient-repository-stardog`
   )
 
 lazy val `pss-patient-domain` = project

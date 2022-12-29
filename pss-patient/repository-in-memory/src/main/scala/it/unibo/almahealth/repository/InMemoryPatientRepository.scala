@@ -10,6 +10,8 @@ class InMemoryPatientRepository(
     private val patients: Map[Identifier, Patient]
 ) extends PatientRepository:
 
+  override def uploadDocument(document: Bundle): ZIO[Any, Nothing, Unit] = ???
+
   override def findById(identifier: Identifier): ZIO[Any, NoSuchElementException, Patient] =
     ZIO
       .attempt {

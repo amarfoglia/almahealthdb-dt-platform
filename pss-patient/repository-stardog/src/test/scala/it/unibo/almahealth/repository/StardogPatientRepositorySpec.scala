@@ -1,19 +1,22 @@
 package it.unibo.almahealth.repository
 
+import ca.uhn.fhir.context.FhirContext
 import com.complexible.stardog.api.ConnectionConfiguration
 import com.complexible.stardog.api.ConnectionPool
 import com.complexible.stardog.api.ConnectionPoolConfig
+import it.unibo.almahealth.context.ZFhirContext
+import it.unibo.almahealth.context.ZFhirContext.apply
 import it.unibo.almahealth.domain.Identifier
 import it.unibo.almahealth.stardog.ZConnectionPool
-import zio.ZIO
-import zio.test.*
-import it.unibo.almahealth.context.ZFhirContext.apply
-import ca.uhn.fhir.context.FhirContext
-import it.unibo.almahealth.context.ZFhirContext
 import it.unibo.almahealth.stardog.ZTurtleWriter
 import org.hl7.fhir.r4.model.Bundle
+import zio.ZIO
+import zio.test.TestAspect.ignore
+import zio.test.TestAspect.tag
+import zio.test.*
 
 object StardogPatientRepositorySpec extends ZIOSpecDefault:
+
   def connectionConfig = ConnectionConfiguration
     .to("testDB")
     .server("http://localhost:5820")
@@ -97,4 +100,4 @@ object StardogPatientRepositorySpec extends ZIOSpecDefault:
         bundle     <- repository.uploadDocument(new Bundle())
       yield assertTrue(true)
     }
-  )
+  ) @@ tag("stardog")
