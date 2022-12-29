@@ -13,6 +13,7 @@ lazy val commonConfiguration = Seq(
   libraryDependencies ++= Seq(
     dev.zio.zio,
     dev.zio.`zio-streams`,
+    dev.zio.`zio-mock`          % Test,
     dev.zio.`zio-test`          % Test,
     dev.zio.`zio-test-sbt`      % Test,
     dev.zio.`zio-test-magnolia` % Test

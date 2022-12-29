@@ -18,14 +18,21 @@ class PatientService(patientRepository: PatientRepository):
   def patient(identifier: Identifier): ZIO[Any, NoSuchElementException, Builder] =
     patientRepository
       .findById(identifier)
-      .map(_ => Builder(identifier, patientRepository))
+      .map(Builder(identifier, patientRepository, _))
+
+  def uploadDocument(document: Bundle): ZIO[Any, Nothing, Unit] =
+    patientRepository.uploadDocument(document)
 
 object PatientService:
 
   final case class Builder(
       private val identifier: Identifier,
-      private val repository: PatientRepository
+      private val repository: PatientRepository,
+      private val patient: Patient
   ):
+
+    def get: UIO[Patient] = ZIO.succeed(patient)
+
     def allergyIntolerances: UIO[Bundle] = repository.getAllergyIntolerances(identifier).orDie
 
     def medications: UIO[Bundle] = repository.getMedications(identifier).orDie
@@ -49,3 +56,6 @@ object PatientService:
 
   def patient(identifier: Identifier): ZIO[PatientService, NoSuchElementException, Builder] =
     ZIO.serviceWithZIO[PatientService](_.patient(identifier))
+
+  def uploadDocument(document: Bundle): ZIO[PatientService, Nothing, Unit] =
+    ZIO.serviceWithZIO[PatientService](_.uploadDocument(document))
