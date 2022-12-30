@@ -4,7 +4,7 @@ import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.parser.DataFormatException
 import it.unibo.almahealth.context.ZFhirContext
 import it.unibo.almahealth.domain.Identifier
-import it.unibo.almahealth.presenter.PatientPresenter
+import it.unibo.almahealth.presenter.ResourcePresenter
 import it.unibo.almahealth.presenter.Presenter
 import it.unibo.almahealth.repository.PatientRepository
 import it.unibo.almahealth.service.PatientService
@@ -17,98 +17,96 @@ import zio.ZLayer
 import zio.http.*
 import zio.http.model.Method
 
-type PatientPresenter = Presenter[Patient, String]
-type BundlePresenter  = Presenter[Bundle, String]
-
 class PatientApp(
     patientService: PatientService,
     zFhirContext: ZFhirContext,
-    patientPresenter: PatientPresenter,
-    bundlePresenter: BundlePresenter
+    resourcePresenter: ResourcePresenter
 ):
   def http: HttpApp[Any, NoSuchElementException | DataFormatException] =
     Http.collectZIO[Request] {
       case Method.GET -> !! / identifier =>
         for
           patient <- patientService.patient(Identifier(identifier)).flatMap(_.get)
-          encoded <- patientPresenter.present(patient).orDie
+          encoded <- resourcePresenter.present(patient).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "allergyIntolerances" =>
         for
           allergies <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.allergyIntolerances)
-          encoded <- bundlePresenter.present(allergies).orDie
+          encoded <- resourcePresenter.present(allergies).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "medications" =>
         for
           medicationStatements <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.medications)
-          encoded <- bundlePresenter.present(medicationStatements).orDie
+          encoded <- resourcePresenter.present(medicationStatements).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "problems" =>
         for
           problems <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.problems)
-          encoded <- bundlePresenter.present(problems).orDie
+          encoded <- resourcePresenter.present(problems).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "medicalEquipment" =>
         for
           medicalEquipment <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.medicalEquipment)
-          encoded <- bundlePresenter.present(medicalEquipment).orDie
+          encoded <- resourcePresenter.present(medicalEquipment).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "procedures" =>
         for
           procedures <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.procedures)
-          encoded <- bundlePresenter.present(procedures).orDie
+          encoded <- resourcePresenter.present(procedures).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "functionalStatus" =>
         for
           functionalStatus <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.functionalStatus)
-          encoded <- bundlePresenter.present(functionalStatus).orDie
+          encoded <- resourcePresenter.present(functionalStatus).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "immunizations" =>
         for
           immunizations <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.immunizations)
-          encoded <- bundlePresenter.present(immunizations).orDie
+          encoded <- resourcePresenter.present(immunizations).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "socialHistory" =>
         for
           socialHistory <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.socialHistory)
-          encoded <- bundlePresenter.present(socialHistory).orDie
+          encoded <- resourcePresenter.present(socialHistory).orDie
         yield Response.text(encoded)
       case Method.GET -> !! / identifier / "vitalSigns" =>
         for
           vitalSigns <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.vitalSigns)
-          encoded <- bundlePresenter.present(vitalSigns).orDie
+          encoded <- resourcePresenter.present(vitalSigns).orDie
         yield Response.text(encoded)
       case req @ Method.POST -> !! / "uploadDocument" =>
         for
-          body   <- req.body.asString.mapError(_ => new DataFormatException("Couldn't parse body"))
-          parser <- zFhirContext.newJsonParser
-          bundle <- parser.parseString(classOf[Bundle], body)
-          _      <- patientService.uploadDocument(bundle)
+          body    <- req.body.asString.mapError(_ => new DataFormatException("Couldn't parse body"))
+          parser  <- zFhirContext.newJsonParser
+          encoder <- zFhirContext.newRDFEncoder
+          bundle  <- parser.parseString(classOf[Bundle], body)
+          _       <- encoder.encodeResourceToString(bundle).debug
+        // _      <- patientService.uploadDocument(bundle)
         yield Response.ok
     }
 
 object PatientApp:
-  private type Deps = PatientService & ZFhirContext & PatientPresenter & BundlePresenter
+  private type Deps = PatientService & ZFhirContext & ResourcePresenter
   val live: ZLayer[Deps, Nothing, PatientApp] =
-    ZLayer.fromFunction(PatientApp(_, _, _, _))
+    ZLayer.fromFunction(PatientApp(_, _, _))
 
   def http: HttpApp[PatientApp, NoSuchElementException | DataFormatException] =
     Http.fromZIO(ZIO.service[PatientApp].map(_.http)).flatten

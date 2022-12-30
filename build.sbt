@@ -3,10 +3,6 @@ import Dependencies.*
 ThisBuild / scalaVersion := "3.2.0"
 ThisBuild / version      := "0.1.0-SNAPSHOT"
 
-// run / fork          := false
-// Global / cancelable := false
-//
-
 lazy val commonConfiguration = Seq(
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
   Test / testOptions += Tests.Argument("-ignore-tags", "stardog"),
@@ -25,7 +21,8 @@ lazy val root = project
   .aggregate(
     `pss-patient`,
     `fall-detection`,
-    common
+    common,
+    examples
   )
 
 lazy val common = project
@@ -120,7 +117,8 @@ lazy val `pss-patient-repository-stardog` = project
     libraryDependencies ++= Seq(
       `com.complexible.stardog`.`client-http`,
       `org.apache.jena`.`jena-arq`,
-      `org.apache.jena`.`jena-core`
+      `org.apache.jena`.`jena-core`,
+      `org.apache.jena`.`jena-iri`
     )
   )
 
@@ -175,6 +173,26 @@ lazy val `fall-detection-delivery-http` = project
   .in(file("fall-detection/delivery-http"))
   .dependsOn(`fall-detection-core`)
   .settings(commonConfiguration)
+
+lazy val examples = project
+  .in(file("examples"))
+  .aggregate(`examples-pss-patient-ms`)
+
+lazy val `examples-pss-patient-ms` = project
+  .in(file("examples/pss-patient-ms"))
+  .dependsOn(
+    `pss-patient-core`,
+    `pss-patient-delivery-http`,
+    `pss-patient-repository-stardog`
+  )
+  .settings(commonConfiguration)
+  .settings(
+    libraryDependencies ++= Seq(
+      `org.apache.jena`.`jena-arq`,
+      `org.apache.jena`.`jena-core`,
+      `org.apache.jena`.`jena-iri`
+    )
+  )
 
 lazy val main = project
   .in(file("main"))

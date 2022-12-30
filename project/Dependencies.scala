@@ -3,8 +3,9 @@ import sbt.*
 object Dependencies {
   object `org.apache.jena` {
     private val jenaVersion = "3.17.0"
-    val `jena-core`         = "org.apache.jena" % "jena-core" % jenaVersion
     val `jena-arq`          = "org.apache.jena" % "jena-arq"  % jenaVersion
+    val `jena-core`         = "org.apache.jena" % "jena-core" % jenaVersion
+    val `jena-iri`          = "org.apache.jena" % "jena-iri"  % jenaVersion
   }
   object `com.complexible.stardog` {
     val `client-http` = "com.complexible.stardog" % "client-http" % "8.1.1" pomOnly ()

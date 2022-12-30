@@ -25,6 +25,8 @@ import zio.stream.ZSink
 import zio.stream.ZStream
 
 import scala.jdk.StreamConverters._
+import zio.ZLayer.apply
+import zio.ZLayer
 
 class StardogPatientRepository(
     zConnectionPool: ZConnectionPool,
@@ -47,6 +49,9 @@ class StardogPatientRepository(
             )
             .mapZIO(zTurtleWriter.write(_))
             .run(ZSink.mkString)
+            .onError {
+              ZIO.debug("StardogException during connection") *> ZIO.debug(_)
+            }
             .orDie
           _ <-
             if serialized == "" then
@@ -60,7 +65,7 @@ class StardogPatientRepository(
           patient <- parser.parseString(classOf[Patient], serialized).orDie
         yield patient
       }
-      .refineToOrDie[NoSuchPatientException]
+    // .refineToOrDie[NoSuchPatientException]
 
   override def getMedications(identifier: Identifier): ZIO[Any, NoSuchPatientException, Bundle] =
     getResource(identifier, "MedicationStatement", "10160-0")
@@ -134,6 +139,9 @@ INSERT DATA { ${serialized} }
               Queries.makeResource(fhirResourceName, sectionLoincCode),
               parameters = List(Parameter("identifier", identifier.value))
             )
+            .onError {
+              ZIO.debug("StardogException during connection") *> ZIO.debug(_)
+            }
             .orDie
             .mergeIf(s =>
               s.predicate.toString == Namespaces.RDF + "type" && s.`object`.toString == FhirNamespaces.FHIR + fhirResourceName
@@ -178,3 +186,10 @@ INSERT DATA { ${serialized} }
         if pred(a) then ZStream.succeed(a) ++ toMerge(a)
         else ZStream.succeed(a)
       }
+
+object StardogPatientRepository:
+
+  private type Deps = ZConnectionPool & ZFhirContext & ZTurtleWriter
+
+  val live: ZLayer[Deps, Nothing, StardogPatientRepository] =
+    ZLayer.fromFunction(new StardogPatientRepository(_, _, _))

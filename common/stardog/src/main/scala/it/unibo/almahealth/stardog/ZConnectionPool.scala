@@ -3,6 +3,9 @@ package it.unibo.almahealth.stardog
 import com.complexible.stardog.api.ConnectionPool
 import zio.ZIO
 import com.complexible.stardog.api.Connection
+import zio.ZLayer
+import com.complexible.stardog.api.ConnectionConfiguration
+import com.complexible.stardog.api.ConnectionPoolConfig
 
 class ZConnectionPool(connectionPool: ConnectionPool):
 
@@ -13,3 +16,15 @@ class ZConnectionPool(connectionPool: ConnectionPool):
 
   def withConnection[R, E, A](f: ZConnection => ZIO[R, E, A]): ZIO[R, E, A] =
     ZIO.acquireReleaseWith(obtain)(release)(f compose ZConnection.apply)
+
+object ZConnectionPool:
+  def live(
+      connectionConfiguration: ConnectionConfiguration
+  ): ZLayer[Any, Throwable, ZConnectionPool] =
+    ZLayer {
+      ZIO
+        .attempt {
+          ConnectionPoolConfig.using(connectionConfiguration).create()
+        }
+        .map(ZConnectionPool(_))
+    }

@@ -6,17 +6,18 @@ import org.hl7.fhir.r4.model.Patient
 import ca.uhn.fhir.parser.DataFormatException
 import zio.ZLayer
 import it.unibo.almahealth.context.ZFhirContext
+import org.hl7.fhir.r4.model.Resource
 
-type PatientPresenter = Presenter[Patient, String]
+type ResourcePresenter = Presenter[Resource, String]
 
-class JsonPatientPresenter(context: ZFhirContext) extends PatientPresenter:
-  override def present(b: Patient): ZIO[Any, PresenterException, String] =
+class JsonResourcePresenter(context: ZFhirContext) extends ResourcePresenter:
+  override def present(b: Resource): ZIO[Any, PresenterException, String] =
     context.newJsonEncoder.flatMap {
       _.encodeResourceToString(b)
         .mapError(_.getMessage)
         .mapError(PresenterException(_))
     }
 
-object PatientPresenter:
-  def json: ZLayer[ZFhirContext, Nothing, JsonPatientPresenter] =
-    ZLayer.fromFunction(JsonPatientPresenter(_))
+object ResourcePresenter:
+  def json: ZLayer[ZFhirContext, Nothing, JsonResourcePresenter] =
+    ZLayer.fromFunction(JsonResourcePresenter(_))

@@ -26,7 +26,7 @@ private[repository] object Queries:
   | WHERE {
   |   {
   |     {
-  |       SELECT ?compositionRef
+  |       SELECT DISTINCT ?resourceRef
   |       WHERE {
   |           ?patient a fhir:Patient ;
   |               fhir:Patient.identifier  [
