@@ -150,12 +150,11 @@ class StardogPatientRepository(
         .succeed(Values.bnode())
         .flatMap { bundle =>
           ZStream(
-            Values
-              .statement(
-                bundle,
-                Values.iri(Namespaces.RDF, "type"),
-                Values.iri(FhirNamespaces.FHIR, "Bundle")
-              ),
+            Values.statement(
+              bundle,
+              Values.iri(Namespaces.RDF, "type"),
+              Values.iri(FhirNamespaces.FHIR, "Bundle")
+            ),
             Values.statement(
               bundle,
               Values.iri(FhirNamespaces.FHIR, "nodeRole"),
