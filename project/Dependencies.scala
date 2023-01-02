@@ -1,12 +1,15 @@
 import sbt.*
 
 object Dependencies {
+  object `com.github.ghik` {
+    val zerowaste = "com.github.ghik" % "zerowaste" % "0.2.1"
+  }
   object `org.apache.jena` {
     private val jenaVersion = "3.14.0"
     // val `jena-arq`          = "org.apache.jena" % "jena-arq"  % jenaVersion
     // val `jena-core`         = "org.apache.jena" % "jena-core" % jenaVersion
     // val `jena-iri`          = "org.apache.jena" % "jena-iri"  % jenaVersion
-    val `jena`          = "org.apache.jena" % "apache-jena"  % jenaVersion
+    val `jena` = "org.apache.jena" % "apache-jena" % jenaVersion
   }
   object `com.complexible.stardog` {
     val `client-http` = "com.complexible.stardog" % "client-http" % "8.1.1" pomOnly ()

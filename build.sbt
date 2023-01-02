@@ -1,12 +1,29 @@
 import Dependencies.*
 
-ThisBuild / scalaVersion := "3.2.0"
-ThisBuild / version      := "0.1.0-SNAPSHOT"
+ThisBuild / scalaVersion                                   := "3.2.1"
+ThisBuild / version                                        := "0.1.0-SNAPSHOT"
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
 lazy val commonConfiguration = Seq(
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
   Test / testOptions += Tests.Argument("-ignore-tags", "stardog"),
+  semanticdbEnabled := true,
+  semanticdbVersion := scalafixSemanticdb.revision,
+  scalacOptions ++= Seq(
+    "-deprecation",
+    "-explain",
+    "-explain-types",
+    "-feature",
+    "-indent",
+    "-new-syntax",
+    "-print-lines",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xmigration",
+    "-source:3.1"
+  ),
   libraryDependencies ++= Seq(
+    compilerPlugin(`com.github.ghik`.zerowaste cross CrossVersion.full),
     dev.zio.zio,
     dev.zio.`zio-streams`,
     dev.zio.`zio-mock`          % Test,

@@ -16,6 +16,7 @@ import scala.jdk.StreamConverters._
 
 import util.chaining.*
 import ZConnection.*
+import scala.annotation.nowarn
 
 class ZConnection(
     private val connection: Connection,
@@ -70,6 +71,7 @@ class ZConnection(
       .refineToOrDie[StardogException]
 
   private def ensureNamespaces(connection: Connection): Unit =
+    @nowarn("msg=discarded expression")
     def go(namespace: Namespace): Unit =
       if !connection.namespaces.iri(namespace.base).isPresent then
         connection.namespaces.add(namespace.base, namespace.uri)

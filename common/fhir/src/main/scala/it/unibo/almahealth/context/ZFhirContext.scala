@@ -15,6 +15,7 @@ import java.io.IOException
 import scala.jdk.javaapi.CollectionConverters
 
 import util.chaining.*
+import scala.annotation.nowarn
 
 /** Wrapper for the [[ca.uhn.fhir.context.FhirContext]] class that is side-effect free.
   */
@@ -45,22 +46,24 @@ object ZFhirContext:
 /** Wrapper for the [[ca.uhn.fhir.parser.IParser]] class that is side-effect free.
   */
 class ZEncoder(
-  parser: IParser,
-  private val dontEncodeElements: Set[String] = Set()
+    parser: IParser,
+    private val dontEncodeElements: Set[String] = Set()
 ):
-  def setDontEncodeElements(elem: String, rest: String*): ZEncoder = 
+  def setDontEncodeElements(elem: String, rest: String*): ZEncoder =
     setDontEncodeElements(rest.toSet + elem)
 
-  def setDontEncodeElements(elems: Set[String]): ZEncoder = 
+  def setDontEncodeElements(elems: Set[String]): ZEncoder =
     new ZEncoder(parser, dontEncodeElements ++ elems)
 
+  @nowarn("msg=discarded expression")
   def encodeResourceToString(resource: Resource): IO[DataFormatException, String] =
     ZIO
       .attempt {
         parser.setDontEncodeElements(CollectionConverters.asJava(dontEncodeElements))
-        val prefixMatcher = "@prefix.+".r
+        val prefixMatcher   = "@prefix.+".r
         val nodeRoleMatcher = raw"fhir:nodeRole\s+fhir:treeRoot\s+.".r
-        parser.encodeResourceToString(resource)
+        parser
+          .encodeResourceToString(resource)
           .pipe(prefixMatcher.replaceAllIn(_, ""))
           .pipe(nodeRoleMatcher.replaceAllIn(_, ""))
       }

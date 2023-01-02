@@ -35,7 +35,8 @@ import zio.ZLayer.apply
 import zio.stream.ZSink
 import zio.stream.ZStream
 
-import scala.jdk.StreamConverters._
+import scala.jdk.CollectionConverters.*
+import scala.jdk.StreamConverters.*
 
 import util.chaining.scalaUtilChainingOps
 
@@ -111,28 +112,32 @@ class StardogPatientRepository(
   ): ZIO[Any, NoSuchPatientException, Bundle] =
     getResource(identifier, "Device", "46264-8")
 
-  import scala.collection.JavaConverters._
-    
   override def uploadDocument(document: Bundle): ZIO[Any, Nothing, Unit] =
     zConnectionPool.withConnection { conn =>
-      val resources = document.getEntry()
+      val resources = document
+        .getEntry()
         .asScala
         .map(_.getResource())
         .toList
-      ZIO.foreach(resources)(uploadResource(conn.addNamespace(Namespace("fhir", FhirNamespaces.FHIR))))
+      ZIO
+        .foreach(resources)(
+          uploadResource(conn.addNamespace(Namespace("fhir", FhirNamespaces.FHIR)))
+        )
         .onError(ZIO.debug(_))
         .orDie
         .unit
     }
 
-  private def uploadResource(conn: ZConnection)(resource: Resource): ZIO[Any, StardogException, Unit] = 
-      for 
-        encoder    <- zFhirContext.newRDFEncoder
-        serialized <- encoder.encodeResourceToString(resource).orDie
-        query = s"""
-          |INSERT { ${serialized} }  
-          |WHERE { 
-          |  FILTER NOT EXISTS { 
+  private def uploadResource(
+      conn: ZConnection
+  )(resource: Resource): ZIO[Any, StardogException, Unit] =
+    for
+      encoder    <- zFhirContext.newRDFEncoder
+      serialized <- encoder.encodeResourceToString(resource).orDie
+      query = s"""
+          |INSERT { ${serialized} }
+          |WHERE {
+          |  FILTER NOT EXISTS {
           |    ?resource fhir:${resource.getResourceType()}.identifier [
           |      fhir:Identifier.value / fhir:value  "${resource.getId.drop(9)}" ;
           |      fhir:Identifier.use   / fhir:value "secondary"
@@ -140,12 +145,13 @@ class StardogPatientRepository(
           |  }
           |}
           """.stripMargin
-          _ <- if resource.getResourceType() == ResourceType.AllergyIntolerance
-          then ZIO.debug(query) *> ZIO.debug(resource.getId())
-          else ZIO.unit
+      _ <-
+        if resource.getResourceType() == ResourceType.AllergyIntolerance
+        then ZIO.debug(query) *> ZIO.debug(resource.getId())
+        else ZIO.unit
 
-        _ <- conn.update(query)
-      yield()
+      _ <- conn.update(query)
+    yield ()
 
   private def getResource(
       identifier: Identifier,
@@ -211,8 +217,9 @@ class StardogPatientRepository(
             ZIO.debug("Stardog Error") *> ZIO.debug(_)
           }
         parser <- zFhirContext.newRDFParser
-        bundle <- parser.parseString(classOf[Bundle], serialized)
-          .onError { 
+        bundle <- parser
+          .parseString(classOf[Bundle], serialized)
+          .onError {
             ZIO.debug(_)
           }
           .orDie
