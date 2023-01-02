@@ -31,7 +31,6 @@ import org.hl7.fhir.r4.model.Identifier as FHIRIdentifier
 import zio.Chunk
 import zio.ZIO
 import zio.ZLayer
-import zio.ZLayer.apply
 import zio.stream.ZSink
 import zio.stream.ZStream
 
@@ -77,7 +76,6 @@ class StardogPatientRepository(
           patient <- parser.parseString(classOf[Patient], serialized).orDie
         yield patient
       }
-    // .refineToOrDie[NoSuchPatientException]
 
   override def getMedications(identifier: Identifier): ZIO[Any, NoSuchPatientException, Bundle] =
     getResource(identifier, "MedicationStatement", "10160-0")
@@ -134,22 +132,11 @@ class StardogPatientRepository(
     for
       encoder    <- zFhirContext.newRDFEncoder
       serialized <- encoder.encodeResourceToString(resource).orDie
-      query = s"""
-          |INSERT { ${serialized} }
-          |WHERE {
-          |  FILTER NOT EXISTS {
-          |    ?resource fhir:${resource.getResourceType()}.identifier [
-          |      fhir:Identifier.value / fhir:value  "${resource.getId.drop(9)}" ;
-          |      fhir:Identifier.use   / fhir:value "secondary"
-          |    ]
-          |  }
-          |}
-          """.stripMargin
-      _ <-
-        if resource.getResourceType() == ResourceType.AllergyIntolerance
-        then ZIO.debug(query) *> ZIO.debug(resource.getId())
-        else ZIO.unit
-
+      query = Queries.insertResource(serialized, resource)
+      // _ <-
+      //   if resource.getResourceType() == ResourceType.AllergyIntolerance
+      //   then ZIO.debug(query) *> ZIO.debug(resource.getId())
+      //   else ZIO.unit
       _ <- conn.update(query)
     yield ()
 
@@ -193,12 +180,11 @@ class StardogPatientRepository(
                     Values.iri(FhirNamespaces.FHIR, "Bundle.entry"),
                     bundleEntry
                   ),
-                  Values
-                    .statement(
-                      bundleEntry,
-                      Values.iri(FhirNamespaces.FHIR, "Bundle.entry.resource"),
-                      s.subject()
-                    )
+                  Values.statement(
+                    bundleEntry,
+                    Values.iri(FhirNamespaces.FHIR, "Bundle.entry.resource"),
+                    s.subject()
+                  )
                 )
               }
             }

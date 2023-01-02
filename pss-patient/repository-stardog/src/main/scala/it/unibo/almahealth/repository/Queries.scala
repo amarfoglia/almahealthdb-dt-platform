@@ -1,5 +1,7 @@
 package it.unibo.almahealth.repository
 
+import org.hl7.fhir.r4.model.Resource
+
 private[repository] object Queries:
 
   val findById = """
@@ -63,3 +65,15 @@ private[repository] object Queries:
       ?resource  (<>|!<>)*  ?subject  .
       ?subject  ?pred       ?object .
     }""".stripMargin
+
+  def insertResource(serialized: String, resource: Resource): String = """
+    |INSERT { ${serialized} }
+    |WHERE {
+    |  FILTER NOT EXISTS {
+    |    ?resource fhir:${resource.getResourceType()}.identifier [
+    |      fhir:Identifier.value / fhir:value  "${resource.getId.drop(9)}" ;
+    |      fhir:Identifier.use   / fhir:value "secondary"
+    |    ]
+    |  }
+    |}
+    """.stripMargin

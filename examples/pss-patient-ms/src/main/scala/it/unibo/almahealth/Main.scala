@@ -22,8 +22,6 @@ import zio.http.Server
 import zio.http.ServerConfig
 import zio.http.model.Status
 
-import java.{util => ju}
-
 object Main extends ZIOAppDefault:
   val devConfig = ServerConfig.live(ServerConfig.default.port(8080))
 
