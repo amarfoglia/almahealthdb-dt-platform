@@ -28,78 +28,76 @@ class PatientApp(
         for
           patient <- patientService.patient(Identifier(identifier)).flatMap(_.get)
           encoded <- resourcePresenter.present(patient).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "allergyIntolerances" =>
         for
           allergies <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.allergyIntolerances)
           encoded <- resourcePresenter.present(allergies).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "medications" =>
         for
           medicationStatements <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.medications)
           encoded <- resourcePresenter.present(medicationStatements).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "problems" =>
         for
           problems <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.problems)
           encoded <- resourcePresenter.present(problems).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "medicalEquipment" =>
         for
           medicalEquipment <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.medicalEquipment)
           encoded <- resourcePresenter.present(medicalEquipment).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "procedures" =>
         for
           procedures <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.procedures)
           encoded <- resourcePresenter.present(procedures).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "functionalStatus" =>
         for
           functionalStatus <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.functionalStatus)
           encoded <- resourcePresenter.present(functionalStatus).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "immunizations" =>
         for
           immunizations <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.immunizations)
           encoded <- resourcePresenter.present(immunizations).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "socialHistory" =>
         for
           socialHistory <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.socialHistory)
           encoded <- resourcePresenter.present(socialHistory).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case Method.GET -> !! / identifier / "vitalSigns" =>
         for
           vitalSigns <- patientService
             .patient(Identifier(identifier))
             .flatMap(_.vitalSigns)
           encoded <- resourcePresenter.present(vitalSigns).orDie
-        yield Response.text(encoded)
+        yield Response.json(encoded)
       case req @ Method.POST -> !! / "uploadDocument" =>
         for
           body    <- req.body.asString.mapError(_ => new DataFormatException("Couldn't parse body"))
           parser  <- zFhirContext.newJsonParser
-          encoder <- zFhirContext.newRDFEncoder
           bundle  <- parser.parseString(classOf[Bundle], body)
-          _       <- encoder.encodeResourceToString(bundle).debug
-        // _      <- patientService.uploadDocument(bundle)
+          _       <- patientService.uploadDocument(bundle)
         yield Response.ok
     }
 

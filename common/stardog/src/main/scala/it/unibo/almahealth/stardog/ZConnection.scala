@@ -31,6 +31,7 @@ class ZConnection(
   ): ZIO[Any, StardogException, Unit] = ZIO
     .attempt {
       connection
+        .tap(ensureNamespaces)
         .update(in)
         .reasoning(reasoning)
         .execute()

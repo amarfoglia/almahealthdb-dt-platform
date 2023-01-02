@@ -116,9 +116,7 @@ lazy val `pss-patient-repository-stardog` = project
   .settings(
     libraryDependencies ++= Seq(
       `com.complexible.stardog`.`client-http`,
-      `org.apache.jena`.`jena-arq`,
-      `org.apache.jena`.`jena-core`,
-      `org.apache.jena`.`jena-iri`
+      `org.apache.jena`.jena
     )
   )
 
@@ -188,9 +186,7 @@ lazy val `examples-pss-patient-ms` = project
   .settings(commonConfiguration)
   .settings(
     libraryDependencies ++= Seq(
-      `org.apache.jena`.`jena-arq`,
-      `org.apache.jena`.`jena-core`,
-      `org.apache.jena`.`jena-iri`
+      `org.apache.jena`.jena
     )
   )
 

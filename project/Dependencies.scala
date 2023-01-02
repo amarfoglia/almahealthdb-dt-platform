@@ -2,10 +2,11 @@ import sbt.*
 
 object Dependencies {
   object `org.apache.jena` {
-    private val jenaVersion = "3.17.0"
-    val `jena-arq`          = "org.apache.jena" % "jena-arq"  % jenaVersion
-    val `jena-core`         = "org.apache.jena" % "jena-core" % jenaVersion
-    val `jena-iri`          = "org.apache.jena" % "jena-iri"  % jenaVersion
+    private val jenaVersion = "3.14.0"
+    // val `jena-arq`          = "org.apache.jena" % "jena-arq"  % jenaVersion
+    // val `jena-core`         = "org.apache.jena" % "jena-core" % jenaVersion
+    // val `jena-iri`          = "org.apache.jena" % "jena-iri"  % jenaVersion
+    val `jena`          = "org.apache.jena" % "apache-jena"  % jenaVersion
   }
   object `com.complexible.stardog` {
     val `client-http` = "com.complexible.stardog" % "client-http" % "8.1.1" pomOnly ()
@@ -27,7 +28,7 @@ object Dependencies {
     }
   }
   object `ca.uhn.hapi.fhir` {
-    private val hapiFhirVersion = "5.7.9"
+    private val hapiFhirVersion = "5.3.3"
 
     val `hapi-fhir-base` = "ca.uhn.hapi.fhir" % "hapi-fhir-base" % hapiFhirVersion
     val `hapi-fhir-structures-dstu2` =

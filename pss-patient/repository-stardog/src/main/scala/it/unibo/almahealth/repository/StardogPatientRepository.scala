@@ -1,10 +1,11 @@
 package it.unibo.almahealth.repository
 
+import ca.uhn.fhir.parser.DataFormatException
 import com.complexible.common.base.Options
 import com.complexible.common.rdf.query.resultio.TextTableQueryResultWriter
+import com.complexible.stardog.StardogException
 import com.complexible.stardog.api.ConnectionPool
 import com.stardog.stark.Namespaces
-import it.unibo.almahealth.Namespaces as FhirNamespaces
 import com.stardog.stark.Statement
 import com.stardog.stark.Values
 import com.stardog.stark.io.turtle.TurtleWriter
@@ -14,19 +15,29 @@ import com.stardog.stark.query.SelectQueryResult
 import com.stardog.stark.query.io.QueryResultWriters
 import it.unibo.almahealth.context.ZFhirContext
 import it.unibo.almahealth.domain.Identifier
+import it.unibo.almahealth.stardog.ZConnection
 import it.unibo.almahealth.stardog.ZConnection.Namespace
 import it.unibo.almahealth.stardog.ZConnection.Parameter
 import it.unibo.almahealth.stardog.ZConnectionPool
 import it.unibo.almahealth.stardog.ZTurtleWriter
+import it.unibo.almahealth.Namespaces as FhirNamespaces
 import org.hl7.fhir.r4.model.Bundle
+import org.hl7.fhir.r4.model.Device
+import org.hl7.fhir.r4.model.Meta
 import org.hl7.fhir.r4.model.Patient
+import org.hl7.fhir.r4.model.Resource
+import org.hl7.fhir.r4.model.ResourceType
+import org.hl7.fhir.r4.model.Identifier as FHIRIdentifier
+import zio.Chunk
 import zio.ZIO
+import zio.ZLayer
+import zio.ZLayer.apply
 import zio.stream.ZSink
 import zio.stream.ZStream
 
 import scala.jdk.StreamConverters._
-import zio.ZLayer.apply
-import zio.ZLayer
+
+import util.chaining.scalaUtilChainingOps
 
 class StardogPatientRepository(
     zConnectionPool: ZConnectionPool,
@@ -100,23 +111,47 @@ class StardogPatientRepository(
   ): ZIO[Any, NoSuchPatientException, Bundle] =
     getResource(identifier, "Device", "46264-8")
 
+  import scala.collection.JavaConverters._
+    
   override def uploadDocument(document: Bundle): ZIO[Any, Nothing, Unit] =
     zConnectionPool.withConnection { conn =>
-      for
-        encoder    <- zFhirContext.newRDFEncoder
-        serialized <- encoder.encodeResourceToString(document).orDie.debug
-        _ <- conn
-          .update(s"""
-INSERT DATA { ${serialized} }
-""").orDie
-      yield ()
+      val resources = document.getEntry()
+        .asScala
+        .map(_.getResource())
+        .toList
+      ZIO.foreach(resources)(uploadResource(conn.addNamespace(Namespace("fhir", FhirNamespaces.FHIR))))
+        .onError(ZIO.debug(_))
+        .orDie
+        .unit
     }
+
+  private def uploadResource(conn: ZConnection)(resource: Resource): ZIO[Any, StardogException, Unit] = 
+      for 
+        encoder    <- zFhirContext.newRDFEncoder
+        serialized <- encoder.encodeResourceToString(resource).orDie
+        query = s"""
+          |INSERT { ${serialized} }  
+          |WHERE { 
+          |  FILTER NOT EXISTS { 
+          |    ?resource fhir:${resource.getResourceType()}.identifier [
+          |      fhir:Identifier.value / fhir:value  "${resource.getId.drop(9)}" ;
+          |      fhir:Identifier.use   / fhir:value "secondary"
+          |    ]
+          |  }
+          |}
+          """.stripMargin
+          _ <- if resource.getResourceType() == ResourceType.AllergyIntolerance
+          then ZIO.debug(query) *> ZIO.debug(resource.getId())
+          else ZIO.unit
+
+        _ <- conn.update(query)
+      yield()
 
   private def getResource(
       identifier: Identifier,
       fhirResourceName: String,
       sectionLoincCode: String
-  ): ZIO[Any, NoSuchPatientException, Bundle] =
+  ): ZIO[Any, NoSuchElementException, Bundle] =
     zConnectionPool.withConnection { conn =>
       val statements = ZStream
         .succeed(Values.bnode())
@@ -137,12 +172,11 @@ INSERT DATA { ${serialized} }
             .addNamespace(Namespace("fhir", FhirNamespaces.FHIR))
             .graph(
               Queries.makeResource(fhirResourceName, sectionLoincCode),
-              parameters = List(Parameter("identifier", identifier.value))
+              parameters = List(Parameter("fiscalCode", identifier.value))
             )
             .onError {
               ZIO.debug("StardogException during connection") *> ZIO.debug(_)
             }
-            .orDie
             .mergeIf(s =>
               s.predicate.toString == Namespaces.RDF + "type" && s.`object`.toString == FhirNamespaces.FHIR + fhirResourceName
             ) { s =>
@@ -172,8 +206,16 @@ INSERT DATA { ${serialized} }
           .flattenChunks
           .mapZIO(zTurtleWriter.write(_))
           .run(ZSink.mkString)
+          .refineToOrDie[NoSuchElementException]
+          .onError {
+            ZIO.debug("Stardog Error") *> ZIO.debug(_)
+          }
         parser <- zFhirContext.newRDFParser
-        bundle <- parser.parseString(classOf[Bundle], serialized).orDie
+        bundle <- parser.parseString(classOf[Bundle], serialized)
+          .onError { 
+            ZIO.debug(_)
+          }
+          .orDie
       yield bundle
 
     }

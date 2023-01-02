@@ -1,16 +1,20 @@
 package it.unibo.almahealth.context
 
 import ca.uhn.fhir.context.FhirContext
+import ca.uhn.fhir.parser.DataFormatException
 import ca.uhn.fhir.parser.IParser
-import zio.UIO
+import org.hl7.fhir.r4.model.BaseResource
+import org.hl7.fhir.r4.model.Resource
 import zio.IO
+import zio.UIO
 import zio.URIO
 import zio.ZIO
 import zio.ZLayer
-import org.hl7.fhir.r4.model.Resource
+
 import java.io.IOException
-import ca.uhn.fhir.parser.DataFormatException
-import org.hl7.fhir.r4.model.BaseResource
+import scala.jdk.javaapi.CollectionConverters
+
+import util.chaining.*
 
 /** Wrapper for the [[ca.uhn.fhir.context.FhirContext]] class that is side-effect free.
   */
@@ -40,11 +44,25 @@ object ZFhirContext:
 
 /** Wrapper for the [[ca.uhn.fhir.parser.IParser]] class that is side-effect free.
   */
-class ZEncoder(parser: IParser):
+class ZEncoder(
+  parser: IParser,
+  private val dontEncodeElements: Set[String] = Set()
+):
+  def setDontEncodeElements(elem: String, rest: String*): ZEncoder = 
+    setDontEncodeElements(rest.toSet + elem)
+
+  def setDontEncodeElements(elems: Set[String]): ZEncoder = 
+    new ZEncoder(parser, dontEncodeElements ++ elems)
+
   def encodeResourceToString(resource: Resource): IO[DataFormatException, String] =
     ZIO
       .attempt {
+        parser.setDontEncodeElements(CollectionConverters.asJava(dontEncodeElements))
+        val prefixMatcher = "@prefix.+".r
+        val nodeRoleMatcher = raw"fhir:nodeRole\s+fhir:treeRoot\s+.".r
         parser.encodeResourceToString(resource)
+          .pipe(prefixMatcher.replaceAllIn(_, ""))
+          .pipe(nodeRoleMatcher.replaceAllIn(_, ""))
       }
       .refineToOrDie[DataFormatException]
 
