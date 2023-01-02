@@ -1,11 +1,11 @@
 package it.unibo.almahealth.stardog
 
-import com.complexible.stardog.api.ConnectionPool
-import zio.ZIO
 import com.complexible.stardog.api.Connection
-import zio.ZLayer
 import com.complexible.stardog.api.ConnectionConfiguration
+import com.complexible.stardog.api.ConnectionPool
 import com.complexible.stardog.api.ConnectionPoolConfig
+import zio.ZIO
+import zio.ZLayer
 
 class ZConnectionPool(connectionPool: ConnectionPool):
 

@@ -1,27 +1,28 @@
 package it.unibo.almahealth
 
+import ca.uhn.fhir.parser.DataFormatException
+import com.complexible.stardog.api.ConnectionConfiguration
+import it.unibo.almahealth.context.ZFhirContext
+import it.unibo.almahealth.delivery.PatientApp
+import it.unibo.almahealth.presenter.ResourcePresenter
+import it.unibo.almahealth.repository.StardogPatientRepository
+import it.unibo.almahealth.service.PatientService
+import it.unibo.almahealth.stardog.ZConnectionPool
+import it.unibo.almahealth.stardog.ZTurtleWriter
 import zio.Console
-import zio.ZIOAppDefault
 import zio.Scope
 import zio.ZIO
 import zio.ZIOAppArgs
-import it.unibo.almahealth.delivery.PatientApp
+import zio.ZIOAppDefault
+import zio.ZLayer
+import zio.http.Http
+import zio.http.Response
+import zio.http.Response.apply
 import zio.http.Server
 import zio.http.ServerConfig
-import it.unibo.almahealth.repository.StardogPatientRepository
-import it.unibo.almahealth.context.ZFhirContext
-import it.unibo.almahealth.presenter.ResourcePresenter
-import it.unibo.almahealth.service.PatientService
-import it.unibo.almahealth.stardog.ZConnectionPool
-import com.complexible.stardog.api.ConnectionConfiguration
-import zio.ZLayer
-import it.unibo.almahealth.stardog.ZTurtleWriter
-import java.{util => ju}
-import ca.uhn.fhir.parser.DataFormatException
-import zio.http.Response.apply
-import zio.http.Response
 import zio.http.model.Status
-import zio.http.Http
+
+import java.{util => ju}
 
 object Main extends ZIOAppDefault:
   val devConfig = ServerConfig.live(ServerConfig.default.port(8080))

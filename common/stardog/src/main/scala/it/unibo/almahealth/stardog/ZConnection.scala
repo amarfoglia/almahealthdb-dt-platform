@@ -12,11 +12,11 @@ import com.stardog.stark.query.io.QueryResultWriters
 import zio.ZIO
 import zio.stream.ZStream
 
+import scala.annotation.nowarn
 import scala.jdk.StreamConverters._
 
 import util.chaining.*
 import ZConnection.*
-import scala.annotation.nowarn
 
 class ZConnection(
     private val connection: Connection,

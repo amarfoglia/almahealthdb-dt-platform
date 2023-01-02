@@ -4,8 +4,8 @@ import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.parser.DataFormatException
 import it.unibo.almahealth.context.ZFhirContext
 import it.unibo.almahealth.domain.Identifier
-import it.unibo.almahealth.presenter.ResourcePresenter
 import it.unibo.almahealth.presenter.Presenter
+import it.unibo.almahealth.presenter.ResourcePresenter
 import it.unibo.almahealth.repository.PatientRepository
 import it.unibo.almahealth.service.PatientService
 import org.hl7.fhir.r4.model.AllergyIntolerance

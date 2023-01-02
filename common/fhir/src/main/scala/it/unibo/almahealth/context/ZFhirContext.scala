@@ -12,10 +12,10 @@ import zio.ZIO
 import zio.ZLayer
 
 import java.io.IOException
+import scala.annotation.nowarn
 import scala.jdk.javaapi.CollectionConverters
 
 import util.chaining.*
-import scala.annotation.nowarn
 
 /** Wrapper for the [[ca.uhn.fhir.context.FhirContext]] class that is side-effect free.
   */

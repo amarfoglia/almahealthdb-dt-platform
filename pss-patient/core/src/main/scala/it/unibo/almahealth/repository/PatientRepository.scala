@@ -1,11 +1,11 @@
 package it.unibo.almahealth.repository
 
 import it.unibo.almahealth.domain.Identifier
-import zio.ZIO
-import org.hl7.fhir.r4.model.Patient
-import zio.ZLayer
-import org.hl7.fhir.r4.model.Bundle
 import org.hl7.fhir.r4.model.AllergyIntolerance
+import org.hl7.fhir.r4.model.Bundle
+import org.hl7.fhir.r4.model.Patient
+import zio.ZIO
+import zio.ZLayer
 
 type NoSuchPatientException = NoSuchElementException
 

@@ -1,18 +1,17 @@
 package it.unibo.almahealth.service
 
-import zio.stream.ZStream
-import zio.ZIO
-import zio.Scope
-import it.unibo.almahealth.events.EventInputPort
-import it.unibo.almahealth.domain.Chance
-
-import org.hl7.fhir.r4.model.Observation
-import zio.ZLayer
-import it.unibo.almahealth.domain.Identifier
 import it.unibo.almahealth.context.Topics.Event
 import it.unibo.almahealth.context.Topics.syntax.*
-import org.hl7.fhir.r4.model.RiskAssessment
+import it.unibo.almahealth.domain.Chance
+import it.unibo.almahealth.domain.Identifier
+import it.unibo.almahealth.events.EventInputPort
+import org.hl7.fhir.r4.model.Observation
 import org.hl7.fhir.r4.model.Patient
+import org.hl7.fhir.r4.model.RiskAssessment
+import zio.Scope
+import zio.ZIO
+import zio.ZLayer
+import zio.stream.ZStream
 
 trait Registry:
   def patient: ZIO[Any, Nothing, Patient]
