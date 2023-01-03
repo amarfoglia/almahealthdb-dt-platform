@@ -1,0 +1,1359 @@
+{
+  "resourceType": "Bundle",
+  "type": "document",
+  "meta": {
+    "security": {
+      "coding": [
+        {
+          "code": "N",
+          "display": "normal",
+          "system": "https://terminology.hl7.org/CodeSystem-v3-Confidentiality.html"
+        }
+      ]
+    }
+  },
+  "identifier": {
+    "system": "urn:oid:2.16.840.1.113883.2.9.2.120.4.4",
+    "value": "030702.LCNLDE90L47H501Q.20220510112426.Q123E456",
+    "assigner": {
+      "display": "Regione Lazio"
+    }
+  },
+  "timestamp": "2022-06-10T11:00:00.000Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:f36895a8-5dbf-3f5f-bdd4-5c81880f4ca9",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "f36895a8-5dbf-3f5f-bdd4-5c81880f4ca9",
+        "identifier": [
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "f36895a8-5dbf-3f5f-bdd4-5c81880f4ca9",
+            "use": "secondary"
+          }
+        ],
+        "status": "final",
+        "version": "1",
+        "type": {
+          "coding": [
+            {
+              "code": "60591-5",
+              "display": "profilo sanitario sintetico",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "date": "2022-06-10T11:00:00.000Z",
+        "title": "Profilo Sanitario Sintetico",
+        "confidentiality": "N",
+        "event": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "PROG",
+                  "display": "accesso programmato",
+                  "system": "urn:oid:2.16.840.1.113883.2.9.5.1.4"
+                }
+              ]
+            },
+            "period": {
+              "start": "2022-03-10T10:30:23.000Z"
+            }
+          }
+        ],
+        "section": [
+          {
+            "title": "Protesi, Impianti ed Ausilii",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;table&quot;:{&quot;border&quot;:&quot;1&quot;,&quot;width&quot;:&quot;100%&quot;,&quot;thead&quot;:{&quot;tr&quot;:{&quot;th&quot;:{&quot;_&quot;:&quot;Informazioni Protesi&quot;}}},&quot;tbody&quot;:{&quot;tr&quot;:[{&quot;td&quot;:{&quot;_&quot;:&quot;PORTATORE PACE MAKER (ICD9-CM V4501) (Maggio 2019)&quot;}},{&quot;td&quot;:{&quot;_&quot;:&quot;PROTESI DI ARTO INFERIORE&quot;}}]}}}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "46264-8",
+                  "display": "storia di uso di dispositivi medici",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "Device/860f450f-36a7-311b-bcba-536c76c2a3f2"
+              }
+            ]
+          },
+          {
+            "title": "Vaccinazioni",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;_&quot;:&quot;[NARRATIVE_BLOCK]&quot;}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11369-6",
+                  "display": "storia di immunizzazioni",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "Immunization/61a21817-60f0-3752-a7e6-ceaea35cab87"
+              }
+            ]
+          },
+          {
+            "title": "Terapie Farmacologiche",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;_&quot;:&quot;[NARRATIVE_BLOCK]&quot;}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "10160-0",
+                  "display": "history of medication use",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "MedicationStatement/cd93ab7a-cc1e-3496-ae3f-e88b2bbafa4d"
+              }
+            ]
+          },
+          {
+            "title": "Allergie e Intolleranze",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;_&quot;:&quot;[NARRATIVE_BLOCK]&quot;}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "48765-2",
+                  "display": "allergie, reazioni avverse",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "AllergyIntolerance/2751f794-4256-31d2-a826-c8fe3a75ce2e"
+              },
+              {
+                "reference": "AllergyIntolerance/17687546-5610-3b6d-8f1d-846f5ded2522"
+              }
+            ]
+          },
+          {
+            "title": "Lista dei Problemi",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;_&quot;:&quot;[NARRATIVE_BLOCK]&quot;}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "11450-4",
+                  "display": "lista dei problemi",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "Condition/a3c66c51-a573-3567-8944-56c99ad22f1c"
+              }
+            ]
+          },
+          {
+            "title": "Stato funzionale del Paziente",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;table&quot;:{&quot;border&quot;:&quot;1&quot;,&quot;width&quot;:&quot;100%&quot;,&quot;tbody&quot;:{&quot;tr&quot;:[{&quot;th&quot;:{&quot;_&quot;:&quot;ADL (Katz 1970)&quot;}},{&quot;td&quot;:{&quot;list&quot;:{&quot;caption&quot;:{&quot;_&quot;:&quot;Rilevazione del 10 maggio 2015&quot;},&quot;item&quot;:[{&quot;_&quot;:&quot;Capacità motoria: allettato&quot;},{&quot;_&quot;:&quot;Vestirsi: Necessita di assistenza per allacciarsi le scarpe&quot;},{&quot;_&quot;:&quot;Uso dei servizi : Va in Bagno si pulisce si riveste è in grado di svuotare vaso e padella&quot;},{&quot;_&quot;:&quot;Assistenza domiciliare Integrata attiva dal 10/01/2013&quot;}]}}}]}}}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "47420-5",
+                  "display": "nota di valutazione dello stato funzionale",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "Observation/526fff89-6d44-3376-8183-d86e8648d6c2"
+              },
+              {
+                "reference": "Observation/868f3492-75ba-3153-8cac-7a4a879db808"
+              }
+            ]
+          },
+          {
+            "title": "Trattamenti e procedure terapeutiche, chirurgiche e diagnostiche",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;_&quot;:&quot;[NARRATIVE_BLOCK]&quot;}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "47519-4",
+                  "display": "storia di procedure",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "Procedure/6b75a942-a8fb-33fb-986c-5525254ea291"
+              }
+            ]
+          },
+          {
+            "title": "Stili di Vita (Social History)",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;table&quot;:{&quot;border&quot;:&quot;1&quot;,&quot;width&quot;:&quot;100%&quot;,&quot;tbody&quot;:{&quot;tr&quot;:[{&quot;th&quot;:{&quot;_&quot;:&quot;Fattori di Rischio&quot;,&quot;colspan&quot;:&quot;2&quot;}},{&quot;td&quot;:[{&quot;_&quot;:&quot;Fumo&quot;},{&quot;_&quot;:&quot;Forte Fumatore&quot;}]},{&quot;td&quot;:[{&quot;content&quot;:{&quot;_&quot;:&quot;Consumo Alcool&quot;,&quot;ID&quot;:&quot;alcool_use_GBL&quot;}},{&quot;content&quot;:{&quot;_&quot;:&quot;Astemio&quot;,&quot;ID&quot;:&quot;alcool_use&quot;}}]},{&quot;th&quot;:{&quot;_&quot;:&quot;Altro&quot;,&quot;colspan&quot;:&quot;2&quot;}},{&quot;td&quot;:[{&quot;_&quot;:&quot;Titolo di Studio&quot;},{&quot;_&quot;:&quot;Laureata&quot;}]},{&quot;td&quot;:[{&quot;_&quot;:&quot;Impiego attuale&quot;},{&quot;_&quot;:&quot;In pensione, ex impiegata&quot;}]},{&quot;td&quot;:[{&quot;_&quot;:&quot;Condizione Familiare&quot;,&quot;colspan&quot;:&quot;2&quot;},{&quot;_&quot;:&quot;Sposata,due figli&quot;}]}]}}}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "29762-2",
+                  "display": "stile di vita",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "Observation/1bd5e249-5a40-3227-ac42-6dac7603deed"
+              }
+            ]
+          },
+          {
+            "title": "Parametri Vitali",
+            "text": {
+              "status": "generated",
+              "div": "{&quot;table&quot;:{&quot;border&quot;:&quot;1&quot;,&quot;width&quot;:&quot;100%&quot;,&quot;thead&quot;:{&quot;tr&quot;:{&quot;th&quot;:[{&quot;_&quot;:&quot;Data&quot;},{&quot;_&quot;:&quot;Parametro&quot;},{&quot;_&quot;:&quot;Valore&quot;},{&quot;_&quot;:&quot;Note&quot;}]}},&quot;tbody&quot;:{&quot;tr&quot;:[{&quot;td&quot;:[{&quot;_&quot;:&quot;30/04/2020&quot;},{&quot;_&quot;:&quot;Altezza&quot;},{&quot;_&quot;:&quot;165 cm&quot;},&quot; &quot;]},{&quot;td&quot;:[{&quot;_&quot;:&quot;30/04/2020&quot;},{&quot;_&quot;:&quot;Peso&quot;},{&quot;_&quot;:&quot;78.8 Kg&quot;},&quot; &quot;]},{&quot;td&quot;:[{&quot;_&quot;:&quot;30/04/2020&quot;},{&quot;_&quot;:&quot;BMI&quot;},{&quot;_&quot;:&quot;28.7&quot;},&quot; &quot;]},{&quot;td&quot;:[{&quot;_&quot;:&quot;30/04/2020&quot;},{&quot;_&quot;:&quot;Circonferenza Vita&quot;},{&quot;_&quot;:&quot;234&quot;},&quot; &quot;]},{&quot;td&quot;:[{&quot;_&quot;:&quot;10/12/2019-20/04/2020&quot;},{&quot;_&quot;:&quot;Media ultime 4 rilevazioni PA&quot;},{&quot;_&quot;:&quot;84 - 150&quot;},&quot; &quot;]},{&quot;td&quot;:[{&quot;_&quot;:&quot;20/04/2020&quot;},{&quot;_&quot;:&quot;PA&quot;},{&quot;_&quot;:&quot;87 – 90&quot;},&quot; &quot;]}]}}}"
+            },
+            "code": {
+              "coding": [
+                {
+                  "code": "8716-3",
+                  "display": "parametri vitali",
+                  "system": "http://loinc.org"
+                }
+              ]
+            },
+            "mode": "snapshot",
+            "focus": {
+              "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+            },
+            "author": [
+              {
+                "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+              }
+            ],
+            "entry": [
+              {
+                "reference": "Observation/43646c94-343a-3f2a-a972-50a28e636e9c"
+              },
+              {
+                "reference": "Observation/3541883f-0fb2-35ea-89b5-a834e442b35d"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        },
+        "custodian": {
+          "reference": "Organization/8c65da6b-9af9-3162-82b5-8cb3bd94fcf8"
+        },
+        "attester": [
+          {
+            "mode": "legal",
+            "time": "2022-05-10T10:00:00.000Z",
+            "party": {
+              "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+            }
+          }
+        ],
+        "author": [
+          {
+            "reference": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Composition/f36895a8-5dbf-3f5f-bdd4-5c81880f4ca9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:84dc471d-528f-3b2a-a955-bb0b7d1c12d2",
+      "resource": {
+        "resourceType": "Practitioner",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ]
+        },
+        "id": "84dc471d-528f-3b2a-a955-bb0b7d1c12d2",
+        "identifier": [
+          {
+            "system": "http://terminology.hl7.it/CodeSystem/it-tipoEntita/mef",
+            "value": "PROVAX00X00X000Y",
+            "assigner": {
+              "display": "MEF"
+            }
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "84dc471d-528f-3b2a-a955-bb0b7d1c12d2",
+            "use": "secondary"
+          }
+        ],
+        "name": [
+          {
+            "family": "Prova",
+            "given": [
+              "Paola"
+            ],
+            "prefix": [
+              "Dott.ssa"
+            ]
+          },
+          {
+            "family": "Test",
+            "given": [
+              "Paola"
+            ],
+            "prefix": [
+              "Dott.ssa"
+            ]
+          },
+          {
+            "family": "Prova",
+            "given": [
+              "Matteo"
+            ],
+            "prefix": [
+              "Dott."
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "Vico San Giovanni 3"
+            ],
+            "city": "Roma",
+            "state": "Lazio",
+            "country": "ITA"
+          },
+          {
+            "use": "home",
+            "line": [
+              "via Milano 7"
+            ],
+            "city": "Roma",
+            "state": "Lazio",
+            "country": "ITA",
+            "postalCode": "00184"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "prova.provax@example.com",
+            "use": "home"
+          },
+          {
+            "system": "phone",
+            "value": "3340000000",
+            "use": "mobile"
+          },
+          {
+            "system": "email",
+            "value": "prova.provax@example.com",
+            "use": "work"
+          }
+        ],
+        "qualification": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "code": "MMG",
+                  "display": "medico di medicina generale",
+                  "system": "https://art-decor.org/art-decor/decor-valuesets--hl7it-?id=2.16.840.1.113883.2.9.77.22.11.13"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/84dc471d-528f-3b2a-a955-bb0b7d1c12d2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8c65da6b-9af9-3162-82b5-8cb3bd94fcf8",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "8c65da6b-9af9-3162-82b5-8cb3bd94fcf8",
+        "identifier": [
+          {
+            "system": "http://terminology.hl7.it/CodeSystem/it-tipoEntita/minsan",
+            "value": "XXX",
+            "assigner": {
+              "display": "Ministero della Salute"
+            }
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "8c65da6b-9af9-3162-82b5-8cb3bd94fcf8",
+            "use": "secondary"
+          }
+        ],
+        "name": "XXX",
+        "address": [
+          {
+            "line": [
+              "XXX"
+            ],
+            "city": "Roma",
+            "state": "Lazio",
+            "country": "ITA"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "0640402233",
+            "use": "work"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/8c65da6b-9af9-3162-82b5-8cb3bd94fcf8"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6d5799c8-2be2-39fc-a719-80a66c1b311c",
+      "resource": {
+        "resourceType": "Patient",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ]
+        },
+        "id": "6d5799c8-2be2-39fc-a719-80a66c1b311c",
+        "identifier": [
+          {
+            "system": "http://terminology.hl7.it/CodeSystem/it-tipoEntita/mef",
+            "value": "GTWGWY82B42G920M",
+            "assigner": {
+              "display": "MEF"
+            }
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "6d5799c8-2be2-39fc-a719-80a66c1b311c",
+            "use": "secondary"
+          }
+        ],
+        "name": [
+          {
+            "family": "Test",
+            "given": [
+              "Guido"
+            ]
+          }
+        ],
+        "birthDate": "1990-06-19",
+        "gender": "female",
+        "address": [
+          {
+            "use": "home",
+            "line": [
+              "Via Aurora 12"
+            ],
+            "city": "Roma",
+            "state": "Lazio",
+            "country": "ITA",
+            "postalCode": "00187"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "prova.provax@example.com",
+            "use": "home"
+          },
+          {
+            "system": "phone",
+            "value": "3340000000",
+            "use": "mobile"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:860f450f-36a7-311b-bcba-536c76c2a3f2",
+      "resource": {
+        "resourceType": "Device",
+        "id": "860f450f-36a7-311b-bcba-536c76c2a3f2",
+        "identifier": [
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "860f450f-36a7-311b-bcba-536c76c2a3f2",
+            "use": "secondary"
+          }
+        ],
+        "type": {
+          "coding": [
+            {
+              "code": "J010103",
+              "display": "pace maker impiantabili bicamerali",
+              "system": "https://www.salute.gov.it/portale/temi/SceltaDispomedDispositivi.jsp?SRCHKEY=J010103&tipoRicerca=TIPOLOGIA"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Device/860f450f-36a7-311b-bcba-536c76c2a3f2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:61a21817-60f0-3752-a7e6-ceaea35cab87",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "61a21817-60f0-3752-a7e6-ceaea35cab87",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:XXX"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "61a21817-60f0-3752-a7e6-ceaea35cab87",
+            "use": "secondary"
+          }
+        ],
+        "expirationDate": "2022-04-20",
+        "protocolApplied": {
+          "doseNumberPositiveInt": 3
+        },
+        "occurrenceDateTime": "2021-04-20T09:10:10.000Z",
+        "vaccineCode": {
+          "coding": [
+            {
+              "code": "035911015",
+              "display": "propofol b.braun1%*5f20ml",
+              "system": "urn:oid:2.16.840.1.113883.2.9.6.1.5"
+            }
+          ]
+        },
+        "lotNumber": "[LOTTO_VACCINO]",
+        "status": "completed",
+        "route": {
+          "coding": [
+            {
+              "code": "IM",
+              "display": "injection, intramuscular",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-CodeSystem"
+            }
+          ]
+        },
+        "patient": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        },
+        "reaction": [
+          {
+            "detail": {
+              "reference": "Observation/a5e84e32-5f41-36af-8e69-2080abcd0cd9"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/61a21817-60f0-3752-a7e6-ceaea35cab87"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a5e84e32-5f41-36af-8e69-2080abcd0cd9",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "id": "a5e84e32-5f41-36af-8e69-2080abcd0cd9",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:XXX"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "a5e84e32-5f41-36af-8e69-2080abcd0cd9",
+            "use": "secondary"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "therapy"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "75321-0",
+              "display": "obiettività clinica",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2022-05-10T09:00:00.000Z"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "787.02",
+              "display": "nausea solo",
+              "system": "http://terminology.hl7.org/CodeSystem/ICD-9CM-diagnosiscodes"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a5e84e32-5f41-36af-8e69-2080abcd0cd9"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cd93ab7a-cc1e-3496-ae3f-e88b2bbafa4d",
+      "resource": {
+        "resourceType": "MedicationStatement",
+        "id": "cd93ab7a-cc1e-3496-ae3f-e88b2bbafa4d",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:XXX"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "cd93ab7a-cc1e-3496-ae3f-e88b2bbafa4d",
+            "use": "secondary"
+          }
+        ],
+        "status": "completed",
+        "effectivePeriod": {
+          "start": "2022-01-31T23:00:00.000Z",
+          "end": "2022-04-30T23:00:00.000Z"
+        },
+        "route": {
+          "coding": [
+            {
+              "code": "SQ",
+              "display": "injection, subcutaneous",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-CodeSystem"
+            }
+          ]
+        },
+        "site": {
+          "coding": [
+            {
+              "code": "LA",
+              "display": "left arm",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-CodeSystem"
+            }
+          ]
+        },
+        "dosage": [
+          {
+            "doseAndRate": [
+              {
+                "doseRange": {
+                  "low": {
+                    "value": "2",
+                    "unit": "mg"
+                  },
+                  "high": {
+                    "value": "3",
+                    "unit": "mg"
+                  }
+                },
+                "rateRange": {
+                  "low": {
+                    "value": "20",
+                    "unit": "mL/min"
+                  },
+                  "high": {
+                    "value": "50",
+                    "unit": "mL/min"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        },
+        "medicationReference": {
+          "reference": "Medication/9c5ff12d-41f1-316c-8a6c-e3ce93e6845a"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "MedicationStatement/cd93ab7a-cc1e-3496-ae3f-e88b2bbafa4d"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9c5ff12d-41f1-316c-8a6c-e3ce93e6845a",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "9c5ff12d-41f1-316c-8a6c-e3ce93e6845a",
+        "identifier": [
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "9c5ff12d-41f1-316c-8a6c-e3ce93e6845a",
+            "use": "secondary"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "B01AX05",
+              "display": "fondaparinux",
+              "system": "http://www.whocc.no/atc"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Medication/9c5ff12d-41f1-316c-8a6c-e3ce93e6845a"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2751f794-4256-31d2-a826-c8fe3a75ce2e",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "2751f794-4256-31d2-a826-c8fe3a75ce2e",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:XXX"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "2751f794-4256-31d2-a826-c8fe3a75ce2e",
+            "use": "secondary"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "reaction": [
+          {
+            "substance": {
+              "coding": [
+                {
+                  "code": "260152009",
+                  "display": "peli di gatto",
+                  "system": "https://art-decor.org/art-decor/decor-valuesets--hl7it-?id=2.16.840.1.113883.2.9.77.22.11.2"
+                }
+              ]
+            },
+            "manifestation": [
+              {
+                "coding": [
+                  {
+                    "code": "493.9",
+                    "display": "asma,tipo non specificato",
+                    "system": "http://terminology.hl7.org/CodeSystem/ICD-9CM-diagnosiscodes"
+                  }
+                ]
+              }
+            ],
+            "onset": "2022-04-09T23:00:00.000Z",
+            "severity": "moderate"
+          }
+        ],
+        "onsetDateTime": "2020-04-09T23:00:00.000Z",
+        "patient": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "AllergyIntolerance/2751f794-4256-31d2-a826-c8fe3a75ce2e"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:17687546-5610-3b6d-8f1d-846f5ded2522",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "17687546-5610-3b6d-8f1d-846f5ded2522",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:YYY"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "17687546-5610-3b6d-8f1d-846f5ded2522",
+            "use": "secondary"
+          }
+        ],
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "reaction": [
+          {
+            "substance": {
+              "coding": [
+                {
+                  "code": "260152009",
+                  "display": "peli di cane",
+                  "system": "https://art-decor.org/art-decor/decor-valuesets--hl7it-?id=2.16.840.1.113883.2.9.77.22.11.2"
+                }
+              ]
+            },
+            "manifestation": [
+              {
+                "coding": [
+                  {
+                    "code": "493.9",
+                    "display": "asma,tipo non specificato",
+                    "system": "http://terminology.hl7.org/CodeSystem/ICD-9CM-diagnosiscodes"
+                  }
+                ]
+              }
+            ],
+            "onset": "2022-04-09T23:00:00.000Z",
+            "severity": "moderate"
+          }
+        ],
+        "onsetDateTime": "2020-04-09T23:00:00.000Z",
+        "patient": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "AllergyIntolerance/17687546-5610-3b6d-8f1d-846f5ded2522"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a3c66c51-a573-3567-8944-56c99ad22f1c",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "a3c66c51-a573-3567-8944-56c99ad22f1c",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:XXX"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "a3c66c51-a573-3567-8944-56c99ad22f1c",
+            "use": "secondary"
+          }
+        ],
+        "severity": {
+          "coding": [
+            {
+              "code": "M",
+              "display": "moderate",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationValue"
+            }
+          ]
+        },
+        "clinicalStatus": [
+          {
+            "coding": [
+              {
+                "code": "LA18632-2",
+                "display": "inactive",
+                "system": "http://loinc.org"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "Q13.1",
+              "display": "assenza dell&#x27;iride",
+              "system": "https://art-decor.org/art-decor/decor-valuesets--hl7it-?id=2.16.840.1.113883.2.9.77.22.11.17"
+            }
+          ]
+        },
+        "onsetDateTime": "2022-01-31T23:00:00.000Z",
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/a3c66c51-a573-3567-8944-56c99ad22f1c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:526fff89-6d44-3376-8183-d86e8648d6c2",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "id": "526fff89-6d44-3376-8183-d86e8648d6c2",
+        "identifier": [
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "526fff89-6d44-3376-8183-d86e8648d6c2",
+            "use": "secondary"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "75246-9",
+              "display": "activity",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2022-04-20T09:10:10.000Z"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "LA4270-0",
+              "display": "allettato",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/526fff89-6d44-3376-8183-d86e8648d6c2"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:868f3492-75ba-3153-8cac-7a4a879db808",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "id": "868f3492-75ba-3153-8cac-7a4a879db808",
+        "identifier": [
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "868f3492-75ba-3153-8cac-7a4a879db808",
+            "use": "secondary"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "ASSERTION",
+              "display": "assertion",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+            }
+          ]
+        },
+        "effectivePeriod": {
+          "start": "2022-04-20T09:10:10.000Z"
+        },
+        "valueCodeableConcept": {
+          "coding": [
+            {
+              "code": "PSSADI",
+              "display": "assistenza domiciliare integrata",
+              "system": "ProfiloSanitarioSinteticoIT"
+            }
+          ]
+        },
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/868f3492-75ba-3153-8cac-7a4a879db808"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6b75a942-a8fb-33fb-986c-5525254ea291",
+      "resource": {
+        "resourceType": "Procedure",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+          ]
+        },
+        "id": "6b75a942-a8fb-33fb-986c-5525254ea291",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:36e8e930-7b14-11db-9ff1-0800200c9b66"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "6b75a942-a8fb-33fb-986c-5525254ea291",
+            "use": "secondary"
+          }
+        ],
+        "status": "in-progress",
+        "code": {
+          "coding": [
+            {
+              "code": "88.72",
+              "display": "diagnostica ecografica del cuore",
+              "system": "http://terminology.hl7.org/CodeSystem/ICD-9CM-diagnosiscodes"
+            }
+          ]
+        },
+        "performedDateTime": "2020-04-20T09:00:00.000Z",
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Procedure/6b75a942-a8fb-33fb-986c-5525254ea291"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1bd5e249-5a40-3227-ac42-6dac7603deed",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "id": "1bd5e249-5a40-3227-ac42-6dac7603deed",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:36e7e830-7b14-11db-9ff1-0800200c9b66"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "1bd5e249-5a40-3227-ac42-6dac7603deed",
+            "use": "secondary"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "social-history"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "74013-4",
+              "display": "bevande alcoliche al giorno",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-05-20T10:10:10.000Z",
+        "valueQuantity": {
+          "value": 5,
+          "unit": "{drink}/d"
+        },
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/1bd5e249-5a40-3227-ac42-6dac7603deed"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:43646c94-343a-3f2a-a972-50a28e636e9c",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "id": "43646c94-343a-3f2a-a972-50a28e636e9c",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:XXX"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "43646c94-343a-3f2a-a972-50a28e636e9c",
+            "use": "secondary"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "8480-6",
+              "display": "pressione sistolica",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-05-10T10:11:22.000Z",
+        "bodySite": {
+          "coding": [
+            {
+              "code": "RA",
+              "display": "right arm",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-CodeSystem"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": 129,
+          "unit": "mm[Hg]"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/43646c94-343a-3f2a-a972-50a28e636e9c"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3541883f-0fb2-35ea-89b5-a834e442b35d",
+      "resource": {
+        "resourceType": "Observation",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observationresults"
+          ]
+        },
+        "id": "3541883f-0fb2-35ea-89b5-a834e442b35d",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:uuid:XXX"
+          },
+          {
+            "system": "http://dtplatform-thesis.github.io",
+            "value": "3541883f-0fb2-35ea-89b5-a834e442b35d",
+            "use": "secondary"
+          }
+        ],
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs"
+              }
+            ]
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "code": "8462-4",
+              "display": "pressione diastolica",
+              "system": "http://loinc.org"
+            }
+          ]
+        },
+        "effectiveDateTime": "2022-05-10T10:11:22.000Z",
+        "bodySite": {
+          "coding": [
+            {
+              "code": "RA",
+              "display": "right arm",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-CodeSystem"
+            }
+          ]
+        },
+        "valueQuantity": {
+          "value": 90,
+          "unit": "mm[Hg]"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "code": "N",
+                "display": "normal",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/6d5799c8-2be2-39fc-a719-80a66c1b311c"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/3541883f-0fb2-35ea-89b5-a834e442b35d"
+      }
+    }
+  ]
+}

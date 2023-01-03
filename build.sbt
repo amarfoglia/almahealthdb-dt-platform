@@ -1,158 +1,226 @@
 import Dependencies.*
 
-ThisBuild / name := "almahealthdb-dt-platform"
-ThisBuild / scalaVersion := "3.2.0"
-ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / scalaVersion                                   := "3.2.1"
+ThisBuild / version                                        := "0.1.0-SNAPSHOT"
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
 
-run / fork := false
-Global / cancelable := false
+lazy val commonConfiguration = Seq(
+  testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
+  Test / testOptions +=
+    sys.env
+      .get("RUN_STARDOG")
+      .map(_ => Tests.Argument(""))
+      .getOrElse(Tests.Argument("-ignore-tags", "stardog")),
+  semanticdbEnabled := true,
+  semanticdbVersion := scalafixSemanticdb.revision,
+  scalacOptions ++= Seq(
+    "-deprecation",
+    "-explain",
+    "-explain-types",
+    "-feature",
+    "-indent",
+    "-new-syntax",
+    "-print-lines",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xmigration",
+    "-source:3.1"
+  ),
+  libraryDependencies ++= Seq(
+    compilerPlugin(`com.github.ghik`.zerowaste cross CrossVersion.full),
+    dev.zio.zio,
+    dev.zio.`zio-streams`,
+    dev.zio.`zio-mock`          % Test,
+    dev.zio.`zio-test`          % Test,
+    dev.zio.`zio-test-sbt`      % Test,
+    dev.zio.`zio-test-magnolia` % Test
+  )
+)
 
-lazy val root = project.in(file("."))
+lazy val root = project
+  .in(file("."))
   .aggregate(
     `pss-patient`,
     `fall-detection`,
-    common
+    common,
+    examples
   )
 
-lazy val common = project.in(file("common"))
+lazy val common = project
+  .in(file("common"))
   .aggregate(
     `common-domain`,
     `common-fhir`,
+    `common-stardog`,
     `common-event-input-port`,
-    `common-event-input-port-kafka`,
+    `common-event-input-port-kafka`
   )
 
-lazy val `common-domain` = project.in(file("common/domain"))
+lazy val `common-domain` = project
+  .in(file("common/domain"))
+  .settings(commonConfiguration)
 
-
-lazy val `common-fhir` = project.in(file("common/fhir"))
+lazy val `common-fhir` = project
+  .in(file("common/fhir"))
   .dependsOn(
     `common-domain`,
-    `common-event-input-port`,
+    `common-event-input-port`
   )
+  .settings(commonConfiguration)
   .settings(
     libraryDependencies ++= Seq(
-      dev.zio.zio,
-      dev.zio.`zio-streams`,
-      `ca.uhn.hapi.fhir`.`hapi-fhir-structures-r4`,
+      `ca.uhn.hapi.fhir`.`hapi-fhir-structures-r4`
     )
   )
 
-lazy val `common-event-input-port` = project.in(file("common/event-input-port"))
+lazy val `common-stardog` = project
+  .in(file("common/stardog"))
+  .settings(commonConfiguration)
   .settings(
-    libraryDependencies ++= Seq(
-      dev.zio.zio,
-      dev.zio.`zio-streams`,
-    )
-  )
-
-lazy val `common-event-input-port-kafka`= project.in(file("common/event-input-port-kafka"))
-  .dependsOn(`common-event-input-port`)
-  .settings(
-    libraryDependencies ++= Seq(
-      dev.zio.zio,
-      dev.zio.`zio-kafka`,
-      dev.zio.`zio-streams`,
-    )
-  )
-
-lazy val `pss-patient` = project.in(file("pss-patient"))
-  .aggregate(
-    `pss-patient-domain`,
-    `pss-patient-core`,
-    `pss-patient-delivery-http`,
-    `pss-patient-repository-in-memory`,
-  )
-
-lazy val `pss-patient-domain` = project.in(file("pss-patient/domain"))
-  .dependsOn(`common-domain`)
-  .settings(
-    libraryDependencies ++= Seq(
-      `ca.uhn.hapi.fhir`.`hapi-fhir-structures-r4`,
-    )
-  )
-
-lazy val `pss-patient-core` = project.in(file("pss-patient/core"))
-  .dependsOn(
-    `pss-patient-domain`,
-    `common-fhir`,
-  )
-  .settings(
-    libraryDependencies ++= Seq(
-      dev.zio.zio,
-      dev.zio.`zio-streams`,
-    )
-  )
-
-lazy val `pss-patient-repository-in-memory` = project.in(file("pss-patient/repository-in-memory"))
-  .dependsOn(`pss-patient-core`)
-
-lazy val `pss-patient-repository-stardog` = project.in(file("pss-patient/repository-stardog"))
-  .dependsOn(`pss-patient-core`)
-  .settings(
+    resolvers += "Stardog Maven" at "https://maven.stardog.com/",
     libraryDependencies ++= Seq(
       `com.complexible.stardog`.`client-http`
     )
   )
 
-lazy val `pss-patient-delivery-http` = project.in(file("pss-patient/delivery-http"))
-  .dependsOn(
-    `pss-patient-core`,
-    `common-fhir`,
-  )
+lazy val `common-event-input-port` = project
+  .in(file("common/event-input-port"))
+  .settings(commonConfiguration)
+
+lazy val `common-event-input-port-kafka` = project
+  .in(file("common/event-input-port-kafka"))
+  .dependsOn(`common-event-input-port`)
+  .settings(commonConfiguration)
   .settings(
     libraryDependencies ++= Seq(
-      dev.zio.zio,
-      dev.zio.`zio-http`,
-      dev.zio.`zio-json`,
+      dev.zio.`zio-kafka`
     )
   )
 
-lazy val `fall-detection` = project.in(file("fall-detection"))
+lazy val `pss-patient` = project
+  .in(file("pss-patient"))
+  .aggregate(
+    `pss-patient-domain`,
+    `pss-patient-core`,
+    `pss-patient-delivery-http`,
+    `pss-patient-repository-in-memory`,
+    `pss-patient-repository-stardog`
+  )
+
+lazy val `pss-patient-domain` = project
+  .in(file("pss-patient/domain"))
+  .dependsOn(`common-domain`)
+  .settings(commonConfiguration)
+  .settings(
+    libraryDependencies ++= Seq(
+      `ca.uhn.hapi.fhir`.`hapi-fhir-structures-r4`
+    )
+  )
+
+lazy val `pss-patient-core` = project
+  .in(file("pss-patient/core"))
+  .dependsOn(
+    `pss-patient-domain`,
+    `common-fhir`
+  )
+  .settings(commonConfiguration)
+
+lazy val `pss-patient-repository-in-memory` = project
+  .in(file("pss-patient/repository-in-memory"))
+  .dependsOn(`pss-patient-core`)
+  .settings(commonConfiguration)
+
+lazy val `pss-patient-repository-stardog` = project
+  .in(file("pss-patient/repository-stardog"))
+  .dependsOn(`common-fhir`, `common-stardog`, `pss-patient-core`)
+  .settings(commonConfiguration)
+  .settings(
+    libraryDependencies ++= Seq(
+      `com.complexible.stardog`.`client-http`,
+      `org.apache.jena`.jena
+    )
+  )
+
+lazy val `pss-patient-delivery-http` = project
+  .in(file("pss-patient/delivery-http"))
+  .dependsOn(
+    `pss-patient-core`,
+    `common-fhir`
+  )
+  .settings(commonConfiguration)
+  .settings(
+    libraryDependencies ++= Seq(
+      dev.zio.`zio-http`,
+      dev.zio.`zio-json`
+    )
+  )
+
+lazy val `fall-detection` = project
+  .in(file("fall-detection"))
   .aggregate(
     `fall-detection-domain`,
     `fall-detection-core`,
     `fall-detection-repository-in-memory`,
-    `fall-detection-delivery-http`,
+    `fall-detection-delivery-http`
   )
 
-lazy val `fall-detection-domain` = project.in(file("fall-detection/domain"))
+lazy val `fall-detection-domain` = project
+  .in(file("fall-detection/domain"))
   .dependsOn(`common-domain`)
+  .settings(commonConfiguration)
   .settings(
     libraryDependencies ++= Seq(
-      `ca.uhn.hapi.fhir`.`hapi-fhir-structures-r4`,
+      `ca.uhn.hapi.fhir`.`hapi-fhir-structures-r4`
     )
   )
 
-lazy val `fall-detection-core` = project.in(file("fall-detection/core"))
+lazy val `fall-detection-core` = project
+  .in(file("fall-detection/core"))
   .dependsOn(
     `fall-detection-domain`,
     `common-fhir`,
-    `common-event-input-port`,
+    `common-event-input-port`
   )
+  .settings(commonConfiguration)
+
+lazy val `fall-detection-repository-in-memory` = project
+  .in(file("fall-detection/repository-in-memory"))
+  .dependsOn(`fall-detection-core`)
+  .settings(commonConfiguration)
+
+lazy val `fall-detection-delivery-http` = project
+  .in(file("fall-detection/delivery-http"))
+  .dependsOn(`fall-detection-core`)
+  .settings(commonConfiguration)
+
+lazy val examples = project
+  .in(file("examples"))
+  .aggregate(`examples-pss-patient-ms`)
+
+lazy val `examples-pss-patient-ms` = project
+  .in(file("examples/pss-patient-ms"))
+  .dependsOn(
+    `pss-patient-core`,
+    `pss-patient-delivery-http`,
+    `pss-patient-repository-stardog`
+  )
+  .settings(commonConfiguration)
   .settings(
     libraryDependencies ++= Seq(
-      dev.zio.zio,
-      dev.zio.`zio-streams`,
+      `org.apache.jena`.jena
     )
   )
 
-lazy val `fall-detection-repository-in-memory` = project.in(file("fall-detection/repository-in-memory"))
-  .dependsOn(`fall-detection-core`)
-
-lazy val `fall-detection-delivery-http` = project.in(file("fall-detection/delivery-http"))
-  .dependsOn(`fall-detection-core`)
-
-lazy val main = project.in(file("main"))
+lazy val main = project
+  .in(file("main"))
   .dependsOn(
     `common-fhir`,
     `common-event-input-port-kafka`,
-    `fall-detection-core`,
+    `fall-detection-core`
   )
+  .settings(commonConfiguration)
   .settings(
     libraryDependencies ++= Seq(
-      dev.zio.zio,
-      dev.zio.`zio-streams`,
-      dev.zio.`zio-kafka`,
+      dev.zio.`zio-kafka`
     )
   )

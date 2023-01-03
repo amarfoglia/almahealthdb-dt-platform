@@ -2,12 +2,12 @@ package it.unibo.almahealth.events
 
 import it.unibo.almahealth.events.EventInputPort.Topic
 import zio.Scope
+import zio.Tag
 import zio.ZIO
 import zio.ZLayer
 import zio.kafka.consumer._
 import zio.kafka.serde.Serde
 import zio.stream.ZStream
-import zio.Tag
 
 case class KafkaInputPort(consumerSettings: ConsumerSettings) extends EventInputPort[String]:
   override def getEvents(topics: Set[Topic]): ZStream[Scope, Throwable, String] =
