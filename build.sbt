@@ -6,7 +6,11 @@ ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports"
 
 lazy val commonConfiguration = Seq(
   testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework"),
-  Test / testOptions += Tests.Argument("-ignore-tags", "stardog"),
+  Test / testOptions +=
+    sys.env
+      .get("RUN_STARDOG")
+      .map(_ => Tests.Argument(""))
+      .getOrElse(Tests.Argument("-ignore-tags", "stardog")),
   semanticdbEnabled := true,
   semanticdbVersion := scalafixSemanticdb.revision,
   scalacOptions ++= Seq(

@@ -23,28 +23,26 @@ object Main extends ZIOAppDefault:
 
   // val program = Server.install(app) *> zio.Console.printLine("Server started on port 8080") *> ZIO.never
 
-  val program = for
-    _ <- ZIO.debug("Start program")
-    _ <- ZIO.scoped {
+  val program =
+    for _ <- ZIO.debug("Start program")
+      // _ <- ZIO.scoped {
       // FallDetectionService.fallStreamByIdentifier(Identifier("mario"))
       //   .take(2)
       //   .flatMap(o => ZStream.fromZIO(ZIO.debug(o.getResourceType)))
       //   .runDrain
-      ZIO.succeed(4)
-    }
-  yield ()
+      //   ZIO.succeed(4)
+      // }
+    yield ()
 
   // val patients = Map(
   //   Identifier("0000") -> Patient(),
   //   Identifier("0001") -> Patient(),
   // )
 
-
   val settings = ConsumerSettings(List("localhost:29092"))
     .withGroupId("group")
     .withClientId("client")
     .withCloseTimeout(30.seconds)
-
 
   // def observations: ZLayer[ZFhirContext & EventInputPort[String], Nothing, EventInputPort[Observation]] =
   //   ZLayer {
@@ -54,25 +52,23 @@ object Main extends ZIOAppDefault:
   //     yield stringInputPort
   //   }
 
-  override def run: ZIO[ZIOAppArgs & Scope, Any, Any] = 
+  override def run: ZIO[ZIOAppArgs & Scope, Any, Any] =
     program
       .onError(ZIO.debug(_))
-      .provide(
-        FallDetectionService.live,
-        ZLayer.succeed(settings),
-        ZFhirContext.live.forR4,
-        KafkaInputPort.live >>> KafkaInputPort.deserialize { in =>
-          ZFhirContext.newJsonParser
-            .flatMap(_.parseString(classOf[Observation], in))
-        },
+    // .provide(
+    //   FallDetectionService.live,
+    //   ZLayer.succeed(settings),
+    //   ZFhirContext.live.forR4,
+    //   KafkaInputPort.live >>> KafkaInputPort.deserialize { in =>
+    //     ZFhirContext.newJsonParser
+    //       .flatMap(_.parseString(classOf[Observation], in))
+    //   }
 
-
-        // devConfig,
-        // Server.live,
-        // PatientApp.live,
-        // PatientService.live,
-        // PatientPresenter.json,
-        // ZFhirContext.live.forR4,
-        // InMemoryPatientRepository.live(patients)
-      )
-
+    // devConfig,
+    // Server.live,
+    // PatientApp.live,
+    // PatientService.live,
+    // PatientPresenter.json,
+    // ZFhirContext.live.forR4,
+    // InMemoryPatientRepository.live(patients)
+    // )

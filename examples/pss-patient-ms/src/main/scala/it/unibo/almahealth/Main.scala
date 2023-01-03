@@ -31,12 +31,6 @@ object Main extends ZIOAppDefault:
     .credentials("admin", "admin")
 
   val app = PatientApp.http
-    .catchAll {
-      case e: NoSuchElementException =>
-        Http.fromZIO(ZIO.debug(e.getMessage)) *> Http.succeed(Response.status(Status.NotFound))
-      case e: DataFormatException =>
-        Http.fromZIO(ZIO.debug(e.getMessage)) *> Http.succeed(Response.status(Status.BadRequest))
-    }
 
   val program = for
     port <- Server.install(app, Some(e => ZIO.debug(e)))

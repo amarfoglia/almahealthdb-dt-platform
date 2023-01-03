@@ -8,6 +8,7 @@ import zio.ZIO
 
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
+import zio.ZLayer
 
 type BAOS = ByteArrayOutputStream
 
@@ -35,3 +36,7 @@ trait ZWriter(writerFactory: OutputStream => RDFWriter):
     write(statement +: rest)
 
 class ZTurtleWriter extends ZWriter(TurtleWriter.TurtleWriterFactory().create(_, Options.empty()))
+
+object ZWriter:
+  object live:
+    val turtle: ZLayer[Any, Nothing, ZTurtleWriter] = ZLayer.succeed(ZTurtleWriter())

@@ -66,7 +66,7 @@ private[repository] object Queries:
       ?subject  ?pred       ?object .
     }""".stripMargin
 
-  def insertResource(serialized: String, resource: Resource): String = """
+  def insertResource(serialized: String, resource: Resource): String = s"""
     |INSERT { ${serialized} }
     |WHERE {
     |  FILTER NOT EXISTS {
