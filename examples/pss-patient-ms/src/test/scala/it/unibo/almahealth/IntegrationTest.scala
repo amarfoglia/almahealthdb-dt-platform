@@ -132,7 +132,7 @@ object IntegrationTest extends ZIOSpecDefault {
       f(bundle)
     }
 
-  def spec = (suite("PssPatientIntegrationTest")(
+  def spec = suite("PssPatientIntegrationTest")(
     test("POST /uploadDocument") {
       for
         pssBody <- ZIO.succeedBlocking(Source.fromResource("pss.json")).map(_.getLines().mkString)
@@ -303,6 +303,8 @@ object IntegrationTest extends ZIOSpecDefault {
         assertTrue(bundle.getEntry().size() == 2)
       }
     }
-  ) @@ TestAspect.sequential @@ TestAspect.tag("stardog") @@ TestAspect.ignore)
-    .provideLayerShared(deps)
+  ).provideLayerShared(deps) @@
+    TestAspect.sequential @@
+    TestAspect.tag("stardog") @@
+    TestAspect.ignore
 }
