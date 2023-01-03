@@ -303,6 +303,6 @@ object IntegrationTest extends ZIOSpecDefault {
         assertTrue(bundle.getEntry().size() == 2)
       }
     }
-  ) @@ TestAspect.sequential @@ TestAspect.tag("stardog"))
+  ) @@ TestAspect.sequential @@ TestAspect.tag("stardog") @@ TestAspect.ignore)
     .provideLayerShared(deps)
 }

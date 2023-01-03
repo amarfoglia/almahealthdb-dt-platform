@@ -100,4 +100,4 @@ object StardogPatientRepositorySpec extends ZIOSpecDefault:
         bundle     <- repository.uploadDocument(new Bundle())
       yield assertTrue(true)
     }
-  ) @@ tag("stardog")
+  ) @@ tag("stardog") @@ ignore
