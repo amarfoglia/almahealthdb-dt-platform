@@ -27,6 +27,8 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         cache: 'sbt'
+    - name: Check test options
+      run: sbt 'show examples-pss-patient-ms/Test/testOptions'
     - name: Run tests
       run: sbt test
       # Optional: This step uploads information to the GitHub dependency graph and unblocking Dependabot alerts for the repository
